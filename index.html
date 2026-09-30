@@ -224,6 +224,39 @@
             font-size: 22px;
             font-weight: 700;
             margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .speak-btn {
+            background: rgba(255, 255, 255, 0.3);
+            border: none;
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            flex-shrink: 0;
+        }
+
+        .speak-btn:active {
+            background: rgba(255, 255, 255, 0.5);
+            transform: scale(0.95);
+        }
+
+        .speak-btn.speaking {
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { background: rgba(255, 255, 255, 0.3); }
+            50% { background: rgba(255, 255, 255, 0.6); }
         }
 
         .detail-pronunciation {
@@ -420,7 +453,10 @@
 
             <div class="detail-panel">
                 <div class="detail-header">
-                    <div class="detail-title" id="detailTitle">Terim Seçin</div>
+                    <div class="detail-title">
+                        <span id="detailTitle">Terim Seçin</span>
+                        <button class="speak-btn" id="speakBtn" onclick="speakTerm()" style="display: none;">🔊</button>
+                    </div>
                     <div class="detail-pronunciation" id="detailPronunciation"></div>
                     <div class="detail-category-badge" id="detailCategory"></div>
                 </div>
@@ -435,104 +471,86 @@
     </div>
 
     <script>
-        // Terim verileri
+        // Terim verileri - Tıbbi Görüntüleme Teknikleri ve Temel Anatomi
         const terms = [
-            { id: 1, english: "Abdomen", turkish: "Karın", pronunciation: "AB-do-men", category: "Anatomya", definition: "Gövdenin alt bölümü, karaciğer, böbrekler ve bağırsakları içerir.", notes: "" },
-            { id: 2, english: "Abduction", turkish: "Abdüksiyon", pronunciation: "ab-DUK-shun", category: "Hareket", definition: "Vücudun orta hattından uzaklaştırmak.", notes: "" },
-            { id: 3, english: "Absorption", turkish: "Absorpsiyon", pronunciation: "ab-SOR-shun", category: "Fizyoloji", definition: "Radyasyon enerji emilimi tarafından madde.", notes: "" },
-            { id: 4, english: "Acetabulum", turkish: "Asetalabulum", pronunciation: "as-e-TAB-u-lum", category: "Anatomya", definition: "Kalçada uyluğun başının yerleştiği kâse şeklindeki yapı.", notes: "" },
-            { id: 5, english: "Achilles Tendon", turkish: "Aşil Tendonu", pronunciation: "a-KIL-eez TEN-don", category: "Anatomya", definition: "Baldır kası ile topuk kemikini bağlayan sağlam tendon.", notes: "" },
-            { id: 6, english: "Acromion", turkish: "Akromion", pronunciation: "a-KRO-me-on", category: "Anatomya", definition: "Omuz kemiğinin üst ve ön kısmı.", notes: "" },
-            { id: 7, english: "Acoustic", turkish: "Akustik", pronunciation: "a-KOO-stik", category: "Ultrason", definition: "Sese veya işitmeye ilişkin.", notes: "" },
-            { id: 8, english: "Acoustic Impedance", turkish: "Akustik İmpedans", pronunciation: "a-KOO-stik im-PE-dens", category: "Ultrason", definition: "Ses dalgalarının bir ortam içinde hareket etmesine karşı direnç.", notes: "" },
-            { id: 9, english: "Acute", turkish: "Akut", pronunciation: "a-KYOOT", category: "Klinik", definition: "Ani başlayan, şiddetli ve kısa süreli hastalık.", notes: "" },
-            { id: 10, english: "Adduction", turkish: "Addüksiyon", pronunciation: "a-DUK-shun", category: "Hareket", definition: "Vücudun orta hattına doğru yaklaştırmak.", notes: "" },
-            { id: 11, english: "Adenoma", turkish: "Adenoma", pronunciation: "ad-e-NO-ma", category: "Patoloji", definition: "Bezden kaynaklanan iyi huylu tümör.", notes: "" },
-            { id: 12, english: "Adhesion", turkish: "Adhezyon", pronunciation: "ad-HE-zhun", category: "Patoloji", definition: "Doku yüzeyleri arasında yapışıklık.", notes: "" },
-            { id: 13, english: "Adnexa", turkish: "Adneksa", pronunciation: "ad-NEK-sa", category: "Anatomya", definition: "Ana organa bağlı yardımcı organlar.", notes: "" },
-            { id: 14, english: "Adrenal", turkish: "Adrenal", pronunciation: "a-DRE-nal", category: "Anatomya", definition: "Böbrek üstünde oturan endokrin bez.", notes: "" },
-            { id: 15, english: "Aerobic", turkish: "Aerobik", pronunciation: "air-O-bik", category: "Fizyoloji", definition: "Oksijen varlığında gerçekleşen.", notes: "" },
-            { id: 16, english: "Agarose", turkish: "Agaroz", pronunciation: "ag-a-ROS", category: "Laboratuvar", definition: "Deniz yosunlarından elde edilen jel madde.", notes: "" },
-            { id: 17, english: "Agenesis", turkish: "Agenesiz", pronunciation: "a-JEN-e-sis", category: "Kongenital", definition: "Bir organın gelişmemesi veya yokluğu.", notes: "" },
-            { id: 18, english: "Agonal", turkish: "Agonal", pronunciation: "AG-o-nal", category: "Klinik", definition: "Ölümle ilgili, ölmek üzere olan.", notes: "" },
-            { id: 19, english: "Agonist", turkish: "Agonist", pronunciation: "AG-o-nist", category: "Farmakoloji", definition: "Reseptörü aktif hale getiren ilaç.", notes: "" },
-            { id: 20, english: "Akinesia", turkish: "Akinezi", pronunciation: "ay-ki-NE-zhuh", category: "Nöroloji", definition: "Hareket yapamamak veya hareketsiz kalma.", notes: "" },
-            { id: 21, english: "Alae", turkish: "Alae", pronunciation: "AY-le", category: "Anatomya", definition: "Kanat benzeri yapılar.", notes: "" },
-            { id: 22, english: "Alar", turkish: "Alar", pronunciation: "AY-lar", category: "Anatomya", definition: "Kanat veya kanatsal yapıyla ilgili.", notes: "" },
-            { id: 23, english: "Alastrim", turkish: "Alastrim", pronunciation: "a-LAS-trim", category: "Enfeksiyon", definition: "Hafif çiçek hastalığı türü.", notes: "" },
-            { id: 24, english: "Albinism", turkish: "Albinizm", pronunciation: "AL-bi-niz-um", category: "Genetik", definition: "Melanin pigmenti eksikliği nedeniyle renksizlik.", notes: "" },
-            { id: 25, english: "Albumin", turkish: "Albümin", pronunciation: "al-BYOO-min", category: "Biyokimya", definition: "Plazmada en bol protein.", notes: "" },
-            { id: 26, english: "Ablation", turkish: "Ablasyon", pronunciation: "ab-LAY-shun", category: "Cerrahi", definition: "Doku veya organ çıkarılması.", notes: "" },
-            { id: 27, english: "Abscess", turkish: "Apsе", pronunciation: "AB-ses", category: "Patoloji", definition: "İnflamasyonlu dokuların içine pus toplandığı boşluk.", notes: "" },
-            { id: 28, english: "Absolute Value", turkish: "Mutlak Değer", pronunciation: "AB-so-loot VAL-yoo", category: "Fizyoloji", definition: "Sıfırdan bağımsız pozitif sayı.", notes: "" },
-            { id: 29, english: "Anterior", turkish: "Ön", pronunciation: "an-TIR-e-or", category: "Anatomya", definition: "Vücudun ön yüzü veya tarafı.", notes: "" },
-            { id: 30, english: "Antigen", turkish: "Antijen", pronunciation: "AN-ti-jen", category: "İmmünoloji", definition: "Antikor oluşturan yabancı madde.", notes: "" },
-            { id: 31, english: "Anxiety", turkish: "Anksiyete", pronunciation: "ang-ZY-uh-tee", category: "Psikiyatri", definition: "Endişe ve korku hissi.", notes: "" },
-            { id: 32, english: "Aorta", turkish: "Aort", pronunciation: "ay-OR-ta", category: "Anatomya", definition: "Kalp tarafından çıkan ana arter.", notes: "" },
-            { id: 33, english: "Aortic", turkish: "Aortik", pronunciation: "ay-OR-tik", category: "Kardiyoloji", definition: "Aort arter ile ilgili.", notes: "" },
-            { id: 34, english: "Apex", turkish: "Apeks", pronunciation: "AY-peks", category: "Anatomya", definition: "Konilerin en yüksek noktası.", notes: "" },
-            { id: 35, english: "Aphasia", turkish: "Afazi", pronunciation: "a-FAY-zyuh", category: "Nöroloji", definition: "Konuşma yetisinin kaybı.", notes: "" },
-            { id: 36, english: "Aphasic", turkish: "Afazik", pronunciation: "a-FAZ-ik", category: "Nöroloji", definition: "Afazi olan kişi.", notes: "" },
-            { id: 37, english: "Aphid", turkish: "Yaprak Biti", pronunciation: "AY-fid", category: "Biyoloji", definition: "Bitkilere zararlı küçük haşere.", notes: "" },
-            { id: 38, english: "Aphonia", turkish: "Afoni", pronunciation: "a-FO-nee-uh", category: "Nöroloji", definition: "Ses kaybı.", notes: "" },
-            { id: 39, english: "Apical", turkish: "Apikal", pronunciation: "AP-i-kal", category: "Anatomya", definition: "Tepeli yapıyla veya ucuyla ilgili.", notes: "" },
-            { id: 40, english: "Apices", turkish: "Apises", pronunciation: "AP-i-seez", category: "Anatomya", definition: "Apex'in çoğulu.", notes: "" },
-            { id: 41, english: "Aplasia", turkish: "Aplazi", pronunciation: "a-PLAY-zyuh", category: "Kongenital", definition: "Bir dokuda hipoplazidir; gelişme yetersizliği.", notes: "" },
-            { id: 42, english: "Apnea", turkish: "Apne", pronunciation: "ap-NE-uh", category: "Fizyoloji", definition: "Nefes almamak dönemler.", notes: "" },
-            { id: 43, english: "Apolipoprotein", turkish: "Apolipoproteini", pronunciation: "ap-o-LIE-po-PRO-teen", category: "Biyokimya", definition: "Lipoproteinin protein bileşeni.", notes: "" },
-            { id: 44, english: "Apophysis", turkish: "Apofiz", pronunciation: "a-POF-i-sis", category: "Anatomya", definition: "Kemikten çıkıntı.", notes: "" },
-            { id: 45, english: "Apoplexy", turkish: "Apopleksi", pronunciation: "AP-o-plek-see", category: "Nöroloji", definition: "Ani iş göremezlik; felç.", notes: "" },
-            { id: 46, english: "Apostasis", turkish: "Apostasis", pronunciation: "a-POS-ta-sis", category: "Patoloji", definition: "Irin toplandığı dönem.", notes: "" },
-            { id: 47, english: "Aposteme", turkish: "Apostem", pronunciation: "AP-o-stem", category: "Patoloji", definition: "Apsesi olarak da bilinir.", notes: "" },
-            { id: 48, english: "Aposter", turkish: "Aposyer", pronunciation: "AP-o-ster", category: "Patoloji", definition: "Düzeltilmiş apses.", notes: "" },
-            { id: 49, english: "Apothecary", turkish: "Eczacı", pronunciation: "a-POTH-e-kar-ee", category: "Tarih", definition: "Eski zamanlarda ilaç hazırlayan.", notes: "" },
-            { id: 50, english: "Apothecia", turkish: "Apothesia", pronunciation: "ap-o-THE-shuh", category: "Biyoloji", definition: "Mantarlar tarafından oluşturulan yapı.", notes: "" }
+            // TÏBBÏ GÖRÜNTÜLEME TEKNİKLERİ
+            { id: 1, english: "X-ray", turkish: "X Işını / Röntgen", pronunciation: "EKS-ray", category: "Görüntüleme Teknikleri", definition: "Elektromanyetik radyasyonun kullanılarak vücudun iç yapısını görüntüleyen teknik.", notes: "" },
+            { id: 2, english: "Computed Tomography", turkish: "Bilgisayarlı Tomografi (CT)", pronunciation: "kom-PYOO-tid to-MOG-ra-fee", category: "Görüntüleme Teknikleri", definition: "Bilgisayarın yardımıyla kesitsel görüntüler oluşturan ileri radyoloji tekniği.", notes: "" },
+            { id: 3, english: "MRI", turkish: "Manyetik Rezonans Görüntüleme (MRI)", pronunciation: "EM-ar-eye", category: "Görüntüleme Teknikleri", definition: "Manyetik alan ve radyo dalgalarını kullanarak detaylı iç görüntüler oluşturan teknik.", notes: "" },
+            { id: 4, english: "Ultrasound", turkish: "Ultrason", pronunciation: "UL-tra-sound", category: "Görüntüleme Teknikleri", definition: "Ses dalgalarını kullanarak gerçek zamanlı görüntüleme yapan güvenli bir tekniktir.", notes: "" },
+            { id: 5, english: "PET Scan", turkish: "Pozitron Emisyon Tomografisi (PET)", pronunciation: "PET scann", category: "Görüntüleme Teknikleri", definition: "Radioaktif izotopları kullanan metabolik görüntüleme tekniği.", notes: "" },
+            { id: 6, english: "SPECT", turkish: "Tek Foton Emisyon Bilgisayarlı Tomografisi (SPECT)", pronunciation: "SPEKT", category: "Görüntüleme Teknikleri", definition: "Nükleer tıpta kullanılan 3D görüntüleme tekniği.", notes: "" },
+            { id: 7, english: "Fluoroscopy", turkish: "Floroskopi", pronunciation: "flu-ROS-ko-pee", category: "Görüntüleme Teknikleri", definition: "Gerçek zamanlı hareket gösteren X-ışını tekniği.", notes: "" },
+            { id: 8, english: "Digital Radiography", turkish: "Dijital Radyografi", pronunciation: "DIJ-i-tal ra-dee-OG-ra-fee", category: "Görüntüleme Teknikleri", definition: "Dijital sensörleri kullanan modern X-ışını tekniği.", notes: "" },
+            { id: 9, english: "Mammography", turkish: "Mamografi", pronunciation: "mam-OG-ra-fee", category: "Görüntüleme Teknikleri", definition: "Meme kanserini tespit etmek için özel X-ışını tekniği.", notes: "" },
+            { id: 10, english: "Angiography", turkish: "Anjiyografi", pronunciation: "an-jee-OG-ra-fee", category: "Görüntüleme Teknikleri", definition: "Damarları görüntülemek için kontrast madde kullanılan teknik.", notes: "" },
+            
+            // TEMEL ANATOMİ - KEMIKLER
+            { id: 11, english: "Skeleton", turkish: "İskelet", pronunciation: "SKEL-e-ton", category: "Temel Anatomi", definition: "Vücudun kemik yapısının tamamı.", notes: "" },
+            { id: 12, english: "Skull", turkish: "Kafatası", pronunciation: "skul", category: "Temel Anatomi", definition: "Beyni ve yüz yapılarını koruyan kemik yapı.", notes: "" },
+            { id: 13, english: "Vertebra", turkish: "Omur", pronunciation: "VER-te-bra", category: "Temel Anatomi", definition: "Omurga kemiklerinin her birinin adı.", notes: "" },
+            { id: 14, english: "Spine", turkish: "Omurga", pronunciation: "spyn", category: "Temel Anatomi", definition: "Omurların oluşturduğu vücudun ana kemik yapısı.", notes: "" },
+            { id: 15, english: "Ribs", turkish: "Kaburga", pronunciation: "ribz", category: "Temel Anatomi", definition: "Göğüs boşluğunu koruyan kemik yapılar.", notes: "" },
+            { id: 16, english: "Sternum", turkish: "Göğüs Kemiği", pronunciation: "STER-num", category: "Temel Anatomi", definition: "Göğsün ön ortasındaki kemik.", notes: "" },
+            { id: 17, english: "Pelvis", turkish: "Pelvis / Kalça", pronunciation: "PEL-vis", category: "Temel Anatomi", definition: "Alt karının kemik yapısı; iç organları koruyan hafza.", notes: "" },
+            { id: 18, english: "Femur", turkish: "Uyluk Kemiği", pronunciation: "FEE-mur", category: "Temel Anatomi", definition: "Vücudun en uzun ve güçlü kemiği.", notes: "" },
+            { id: 19, english: "Tibia", turkish: "Kaval Kemiği", pronunciation: "TIB-ee-uh", category: "Temel Anatomi", definition: "Bacağın iç kısmının ana kemiği.", notes: "" },
+            { id: 20, english: "Fibula", turkish: "Dış Bacak Kemiği", pronunciation: "FIB-yoo-luh", category: "Temel Anatomi", definition: "Bacağın dış kısmının ince kemiği.", notes: "" },
+            { id: 21, english: "Humerus", turkish: "Kol Kemiği", pronunciation: "HYOO-mer-us", category: "Temel Anatomi", definition: "Omuzdan dirseeğe kadar olan kol kemiği.", notes: "" },
+            { id: 22, english: "Radius", turkish: "Dış Ön Kol Kemiği", pronunciation: "RAY-dee-us", category: "Temel Anatomi", definition: "Ön kolun dış tarafındaki kemiği.", notes: "" },
+            { id: 23, english: "Ulna", turkish: "İç Ön Kol Kemiği", pronunciation: "UL-nuh", category: "Temel Anatomi", definition: "Ön kolun iç tarafındaki kemiği.", notes: "" },
+            { id: 24, english: "Carpals", turkish: "El Bilek Kemikleri", pronunciation: "KAR-palz", category: "Temel Anatomi", definition: "Bileğin küçük kemikleri.", notes: "" },
+            { id: 25, english: "Tarsals", turkish: "Ayak Bilek Kemikleri", pronunciation: "TAR-salz", category: "Temel Anatomi", definition: "Ayak bileğinin kemikleri.", notes: "" },
+            { id: 26, english: "Clavicle", turkish: "Köpek Kemiği", pronunciation: "KLAV-i-kul", category: "Temel Anatomi", definition: "Omuz ile göğüs kemiği arasındaki kemik.", notes: "" },
+            { id: 27, english: "Scapula", turkish: "Omuz Kemiği", pronunciation: "SKAP-yoo-luh", category: "Temel Anatomi", definition: "Arka omuzda bulunan geniş kemik.", notes: "" },
+            { id: 28, english: "Patella", turkish: "Diz Kapağı", pronunciation: "pa-TEL-uh", category: "Temel Anatomi", definition: "Diz ön tarafında koruyan sesamoid kemik.", notes: "" },
+            
+            // TEMEL ANATOMİ - ORGAN VE SİSTEMLER
+            { id: 29, english: "Heart", turkish: "Kalp", pronunciation: "hart", category: "Temel Anatomi", definition: "Vücut boyunca kan dolaştıran kas organı.", notes: "" },
+            { id: 30, english: "Lungs", turkish: "Akciğerler", pronunciation: "lungz", category: "Temel Anatomi", definition: "Nefes aldığımız ve oksijen alışverişi yapan organlar.", notes: "" },
+            { id: 31, english: "Brain", turkish: "Beyin", pronunciation: "brayn", category: "Temel Anatomi", definition: "Merkezi sinir sistemi kontrolünü sağlayan organ.", notes: "" },
+            { id: 32, english: "Liver", turkish: "Karaciğer", pronunciation: "LIV-er", category: "Temel Anatomi", definition: "Metabolizma ve detoksifikasyondan sorumlu en büyük iç organ.", notes: "" },
+            { id: 33, english: "Kidney", turkish: "Böbrek", pronunciation: "KID-nee", category: "Temel Anatomi", definition: "İdrar üretimi ve atık filtrelemesi yapan organ.", notes: "" },
+            { id: 34, english: "Stomach", turkish: "Mide", pronunciation: "STUM-ik", category: "Temel Anatomi", definition: "Besinleri çiğnendikten sonra iki saatlik haznesi.", notes: "" },
+            { id: 35, english: "Intestines", turkish: "Bağırsaklar", pronunciation: "in-TES-tinz", category: "Temel Anatomi", definition: "Besinleri sindirim yapan ve emilimini sağlayan kanallar.", notes: "" },
+            { id: 36, english: "Pancreas", turkish: "Pankreas", pronunciation: "PAN-kree-us", category: "Temel Anatomi", definition: "Insülin ve sindirim enzimlerini üreten bez.", notes: "" },
+            { id: 37, english: "Thyroid", turkish: "Tiroid Bezi", pronunciation: "THY-royd", category: "Temel Anatomi", definition: "Metabolizmayı kontrol eden hormon üreten bez.", notes: "" },
+            { id: 38, english: "Adrenal", turkish: "Adrenal Bez / Böbrek Üstü", pronunciation: "a-DRE-nal", category: "Temel Anatomi", definition: "Stres hormonlarını üreten böbrek üstündeki bez.", notes: "" },
+            
+            // TEMEL ANATOMİ - DAMARLAR VE SİNİRLER
+            { id: 39, english: "Artery", turkish: "Arter", pronunciation: "AR-ter-ee", category: "Temel Anatomi", definition: "Kalp tarafından pompalanan kanı taşıyan damarlı.", notes: "" },
+            { id: 40, english: "Vein", turkish: "Ven", pronunciation: "vayn", category: "Temel Anatomi", definition: "Kalbe geri dönen kanı taşıyan damarlı.", notes: "" },
+            { id: 41, english: "Capillary", turkish: "Kapiller", pronunciation: "KAP-i-ler-ee", category: "Temel Anatomi", definition: "Doku hücrelerine oksijen ve besin sağlayan en ince damarlar.", notes: "" },
+            { id: 42, english: "Nerve", turkish: "Sinir", pronunciation: "nerv", category: "Temel Anatomi", definition: "Beyin ve omurillik ile vücut arasında iletişim sağlayan yapılar.", notes: "" },
+            { id: 43, english: "Spinal Cord", turkish: "Omurillik", pronunciation: "SPY-nal kord", category: "Temel Anatomi", definition: "Beyinle vücut arasında sinyal iletişi sağlayan merkezi sinir.", notes: "" },
+            
+            // TEMEL ANATOMİ - SINIR SISTEMI
+            { id: 44, english: "Central Nervous System", turkish: "Merkezi Sinir Sistemi", pronunciation: "SEN-tral NER-vus SIS-tem", category: "Temel Anatomi", definition: "Beyin ve omuriliğin oluşturduğu kontrol sistemi.", notes: "" },
+            { id: 45, english: "Peripheral Nervous System", turkish: "Çevresel Sinir Sistemi", pronunciation: "pe-RIF-er-al NER-vus SIS-tem", category: "Temel Anatomi", definition: "Beyin ve omuriliğin dışındaki tüm sinirler.", notes: "" },
+            
+            // TEMEL ANATOMİ - KAS VE BAĞ DOKU
+            { id: 46, english: "Muscle", turkish: "Kas", pronunciation: "MUS-ul", category: "Temel Anatomi", definition: "Hareket sağlayan ve isıl üretim yapan doku.", notes: "" },
+            { id: 47, english: "Tendon", turkish: "Tendon", pronunciation: "TEN-dun", category: "Temel Anatomi", definition: "Kası kemiğe bağlayan sağlam bağ dokusu.", notes: "" },
+            { id: 48, english: "Ligament", turkish: "Bağ", pronunciation: "LIG-a-ment", category: "Temel Anatomi", definition: "Kemikleri birbirine bağlayan bağ dokusu.", notes: "" },
+            { id: 49, english: "Cartilage", turkish: "Kıkırdak", pronunciation: "KAR-til-ij", category: "Temel Anatomi", definition: "Huş ve kemiğin arasındaki yumuşak yapı.", notes: "" },
+            
+            // TEMEL ANATOMİ - BAŞKA YAPILARI
+            { id: 50, english: "Lymph Node", turkish: "Lenf Nodu", pronunciation: "lymf nod", category: "Temel Anatomi", definition: "Bağışıklık sisteminin parçası olan filtreleme organları.", notes: "" },
+            { id: 51, english: "Artery", turkish: "Arter", pronunciation: "AR-ter-ee", category: "Temel Anatomi", definition: "Kalp tarafından pompalanan kanı taşıyan damarlı.", notes: "" },
+            { id: 52, english: "Esophagus", turkish: "Yemek Borusu", pronunciation: "e-SOF-a-gus", category: "Temel Anatomi", definition: "Ağızdan midesine kadar gıdayı taşıyan boru.", notes: "" },
+            { id: 53, english: "Trachea", turkish: "Hava Borusu", pronunciation: "TRAY-kee-uh", category: "Temel Anatomi", definition: "Larinksten akciğerlere hava taşıyan boru.", notes: "" },
+            { id: 54, english: "Diaphragm", turkish: "Diyafragma", pronunciation: "DY-a-fram", category: "Temel Anatomi", definition: "Nefes alma hareketini kontrol eden kas.", notes: "" },
+            { id: 55, english: "Bladder", turkish: "Mesane", pronunciation: "BLAD-er", category: "Temel Anatomi", definition: "İdrarı depolayan organ.", notes: "" },
+            
+            // RADYOLOJI TERIMLERI
+            { id: 56, english: "Opacity", turkish: "Opasite", pronunciation: "o-PAS-i-tee", category: "Radyoloji", definition: "X-ışını görüntüsünde beyaz görünen alan.", notes: "" },
+            { id: 57, english: "Lucency", turkish: "Lüsensi", pronunciation: "LOO-sen-see", category: "Radyoloji", definition: "X-ışını görüntüsünde siyah görünen alan.", notes: "" },
+            { id: 58, english: "Artifact", turkish: "Artefakt", pronunciation: "AR-ti-fakt", category: "Radyoloji", definition: "Görüntü içerisindeki istenmeyen yapı.", notes: "" },
+            { id: 59, english: "Contrast", turkish: "Kontrast Ajan", pronunciation: "KON-trast", category: "Radyoloji", definition: "Organ ve damarları daha iyi görmek için verilen madde.", notes: "" },
+            { id: 60, english: "Attenuation", turkish: "Zayıflama", pronunciation: "at-en-yoo-AY-shun", category: "Radyoloji", definition: "Işının madde tarafından zayıflatılması.", notes: "" }
         ];
 
-        // Daha fazla terim ekleyelim - 7680'e yakın sayıya ulaşmak için
-        function generateAdditionalTerms() {
-            const additionalCategories = [
-                "Nöroloji", "Kardiyoloji", "Pulmoloji", "Gastroenteroloji",
-                "Nefroloji", "Endokrinoloji", "Hematoloji", "İmmünoloji",
-                "Enfeksiyöz Hastalıklar", "Onkoloji", "Ruh Sağlığı", "Ortopedi",
-                "Oftalkoloji", "ORL", "Dermatoloji", "Jinekoloji", "Obstetrik",
-                "Pediatri", "Anestezi", "Yoğun Bakım", "Acil Tıp"
-            ];
-
-            const commonPrefixes = ["Hypo", "Hyper", "Meta", "Para", "Pre", "Post", "Anti", "Pro", "Sub", "Super"];
-            const commonSuffixes = ["-itis", "-osis", "-emia", "-uria", "-pathy", "-plasty", "-scopy", "-tomy", "-ectomy", "-algia"];
-            const commonRoots = [
-                "cardi", "neuro", "hepat", "nephr", "gastro", "pneum", "throm", "phob", "path", "phyt",
-                "morph", "bio", "geo", "photo", "hydro", "aero", "poly", "mono", "multi", "micro"
-            ];
-
-            let allTerms = [...terms];
-            let termId = 51;
-
-            for (let i = 0; i < 100; i++) {
-                const prefix = commonPrefixes[Math.floor(Math.random() * commonPrefixes.length)];
-                const root = commonRoots[Math.floor(Math.random() * commonRoots.length)];
-                const suffix = commonSuffixes[Math.floor(Math.random() * commonSuffixes.length)];
-                
-                const englishTerm = prefix + root + suffix;
-                const turkishTerm = englishTerm + " (Türkçe)";
-                const category = additionalCategories[Math.floor(Math.random() * additionalCategories.length)];
-                
-                allTerms.push({
-                    id: termId++,
-                    english: englishTerm,
-                    turkish: turkishTerm,
-                    pronunciation: englishTerm.toLowerCase(),
-                    category: category,
-                    definition: `${englishTerm} terimiyle ilgili tanım ve açıklama.`,
-                    notes: ""
-                });
-            }
-
-            return allTerms;
-        }
-
-        let allTerms = generateAdditionalTerms();
+        let allTerms = [...terms];
         let filteredTerms = [...allTerms];
         let selectedTerm = null;
         let selectedCategory = 'tümü';
@@ -621,6 +639,7 @@
             document.getElementById('detailTitle').textContent = selectedTerm.english;
             document.getElementById('detailPronunciation').textContent = selectedTerm.pronunciation;
             document.getElementById('detailCategory').textContent = selectedTerm.category;
+            document.getElementById('speakBtn').style.display = 'flex';
 
             const detailContent = document.getElementById('detailContent');
             detailContent.innerHTML = `
@@ -654,6 +673,31 @@
             document.getElementById(`noteArea-${selectedTerm.id}`).addEventListener('change', (e) => {
                 selectedTerm.notes = e.target.value;
             });
+        }
+
+        function speakTerm() {
+            if (!selectedTerm) return;
+            
+            const speakBtn = document.getElementById('speakBtn');
+            speakBtn.classList.add('speaking');
+            
+            // Text-to-Speech API kullanarak okunuşu seslendir
+            const utterance = new SpeechSynthesisUtterance(selectedTerm.english);
+            utterance.lang = 'en-US';
+            utterance.rate = 0.8;
+            utterance.pitch = 1;
+            utterance.volume = 1;
+            
+            utterance.onend = () => {
+                speakBtn.classList.remove('speaking');
+            };
+            
+            utterance.onerror = () => {
+                speakBtn.classList.remove('speaking');
+            };
+            
+            window.speechSynthesis.cancel();
+            window.speechSynthesis.speak(utterance);
         }
 
         function updateTermCounter() {
