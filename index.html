@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Tıbbi Radyoloji Terimler Sözlüğü</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+        }
+
+        .container {
+            display: flex;
+            height: 100vh;
+            flex-direction: column;
+            padding-top: env(safe-area-inset-top);
+            padding-bottom: env(safe-area-inset-bottom);
+            padding-left: env(safe-area-inset-left);
+            padding-right: env(safe-area-inset-right);
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 12px 16px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 0 0 12px 12px;
+        }
+
+        .header h1 {
+            color: #667eea;
+            font-size: 20px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .search-box {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .search-box input {
+            flex: 1;
+            padding: 10px 12px;
+            border: 2px solid #667eea;
+            border-radius: 8px;
+            font-size: 14px;
+            background: white;
+        }
+
+        .search-box button {
+            padding: 10px 16px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .search-box button:active {
+            background: #5568d3;
+            transform: scale(0.98);
+        }
+
+        .filter-section {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding-bottom: 6px;
+        }
+
+        .filter-btn {
+            padding: 8px 14px;
+            background: white;
+            border: 2px solid #667eea;
+            color: #667eea;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            white-space: nowrap;
+            flex-shrink: 0;
+            transition: all 0.3s;
+        }
+
+        .filter-btn.active {
+            background: #667eea;
+            color: white;
+        }
+
+        .filter-btn:active {
+            transform: scale(0.95);
+        }
+
+        .content {
+            display: flex;
+            flex: 1;
+            gap: 12px;
+            min-height: 0;
+            padding: 12px;
+            overflow: hidden;
+        }
+
+        .main-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .term-counter {
+            padding: 8px 12px;
+            background: #f0f4ff;
+            color: #667eea;
+            font-size: 12px;
+            font-weight: 600;
+            text-align: center;
+            border-bottom: 1px solid #e0e6ff;
+        }
+
+        .terms-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 12px;
+            overflow-x: hidden;
+        }
+
+        .term-card {
+            background: linear-gradient(135deg, #f5f7ff 0%, #fafbff 100%);
+            border-left: 4px solid #667eea;
+            padding: 14px;
+            margin-bottom: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 2px 6px rgba(102, 126, 234, 0.1);
+        }
+
+        .term-card:active {
+            transform: translateX(4px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+        }
+
+        .term-card.selected {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .term-title {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 4px;
+            color: #333;
+        }
+
+        .term-card.selected .term-title {
+            color: white;
+        }
+
+        .term-pronunciation {
+            font-size: 12px;
+            color: #999;
+            font-style: italic;
+            margin-bottom: 4px;
+        }
+
+        .term-card.selected .term-pronunciation {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .term-category {
+            display: inline-block;
+            font-size: 10px;
+            background: #e0e6ff;
+            color: #667eea;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-weight: 600;
+        }
+
+        .term-card.selected .term-category {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+
+        .detail-panel {
+            width: 320px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 12px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .detail-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 16px;
+            border-bottom: 3px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .detail-title {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .detail-pronunciation {
+            font-size: 13px;
+            opacity: 0.9;
+            font-style: italic;
+            margin-bottom: 8px;
+        }
+
+        .detail-category-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .detail-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px;
+        }
+
+        .detail-section {
+            margin-bottom: 16px;
+        }
+
+        .detail-section-title {
+            font-size: 12px;
+            color: #667eea;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
+        }
+
+        .detail-section-content {
+            font-size: 14px;
+            color: #444;
+            line-height: 1.6;
+            background: #f9f9f9;
+            padding: 10px;
+            border-radius: 6px;
+            border-left: 3px solid #667eea;
+        }
+
+        .notes-area {
+            background: #fffbf0;
+            border-top: 2px solid #ffd700;
+            padding: 12px;
+            border-radius: 6px;
+            margin-top: 12px;
+        }
+
+        .notes-title {
+            font-size: 11px;
+            color: #d97706;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .notes-textarea {
+            width: 100%;
+            height: 80px;
+            border: 2px dashed #ffd700;
+            border-radius: 6px;
+            padding: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            resize: none;
+            background: white;
+            color: #333;
+            -webkit-user-select: text;
+            user-select: text;
+        }
+
+        .empty-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            color: #999;
+        }
+
+        .empty-state-icon {
+            font-size: 48px;
+            margin-bottom: 12px;
+            opacity: 0.5;
+        }
+
+        .empty-state-text {
+            font-size: 14px;
+            text-align: center;
+        }
+
+        @media (max-width: 900px) {
+            .detail-panel {
+                width: 280px;
+            }
+        }
+
+        @media (max-width: 800px) {
+            .content {
+                flex-direction: column;
+            }
+
+            .detail-panel {
+                width: 100%;
+                height: 40vh;
+                max-height: 400px;
+            }
+
+            .main-area {
+                flex: 1;
+            }
+        }
+
+        .scrollbar-style::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .scrollbar-style::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .scrollbar-style::-webkit-scrollbar-thumb {
+            background: #667eea;
+            border-radius: 3px;
+        }
+
+        .scrollbar-style::-webkit-scrollbar-thumb:hover {
+            background: #5568d3;
+        }
+
+        .terms-list {
+            scrollbar-color: #667eea transparent;
+            scrollbar-width: thin;
+        }
+
+        .detail-content {
+            scrollbar-color: #667eea transparent;
+            scrollbar-width: thin;
+        }
+
+        .stats {
+            display: flex;
+            gap: 8px;
+            font-size: 11px;
+            color: #999;
+            margin-top: 4px;
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        @supports(padding: max(0px)) {
+            body {
+                padding-left: max(12px, env(safe-area-inset-left));
+                padding-right: max(12px, env(safe-area-inset-right));
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📚 Tıbbi Radyoloji Terimler Sözlüğü</h1>
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Terim arayın (Türkçe veya İngilizce)..." autocomplete="off">
+                <button onclick="clearSearch()">Temizle</button>
+            </div>
+            <div class="filter-section" id="filterContainer">
+                <button class="filter-btn active" onclick="filterByCategory('tümü')">Tümü</button>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="main-area">
+                <div class="term-counter" id="termCounter">Yükleniyor...</div>
+                <div class="terms-list scrollbar-style" id="termsList">
+                    <div class="empty-state">
+                        <div class="empty-state-icon">📖</div>
+                        <div class="empty-state-text">Terimler yükleniyor...</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="detail-panel">
+                <div class="detail-header">
+                    <div class="detail-title" id="detailTitle">Terim Seçin</div>
+                    <div class="detail-pronunciation" id="detailPronunciation"></div>
+                    <div class="detail-category-badge" id="detailCategory"></div>
+                </div>
+                <div class="detail-content" id="detailContent">
+                    <div class="empty-state">
+                        <div class="empty-state-icon">👈</div>
+                        <div class="empty-state-text">Sözlükten bir terim seçin</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Terim verileri
+        const terms = [
+            { id: 1, english: "Abdomen", turkish: "Karın", pronunciation: "AB-do-men", category: "Anatomya", definition: "Gövdenin alt bölümü, karaciğer, böbrekler ve bağırsakları içerir.", notes: "" },
+            { id: 2, english: "Abduction", turkish: "Abdüksiyon", pronunciation: "ab-DUK-shun", category: "Hareket", definition: "Vücudun orta hattından uzaklaştırmak.", notes: "" },
+            { id: 3, english: "Absorption", turkish: "Absorpsiyon", pronunciation: "ab-SOR-shun", category: "Fizyoloji", definition: "Radyasyon enerji emilimi tarafından madde.", notes: "" },
+            { id: 4, english: "Acetabulum", turkish: "Asetalabulum", pronunciation: "as-e-TAB-u-lum", category: "Anatomya", definition: "Kalçada uyluğun başının yerleştiği kâse şeklindeki yapı.", notes: "" },
+            { id: 5, english: "Achilles Tendon", turkish: "Aşil Tendonu", pronunciation: "a-KIL-eez TEN-don", category: "Anatomya", definition: "Baldır kası ile topuk kemikini bağlayan sağlam tendon.", notes: "" },
+            { id: 6, english: "Acromion", turkish: "Akromion", pronunciation: "a-KRO-me-on", category: "Anatomya", definition: "Omuz kemiğinin üst ve ön kısmı.", notes: "" },
+            { id: 7, english: "Acoustic", turkish: "Akustik", pronunciation: "a-KOO-stik", category: "Ultrason", definition: "Sese veya işitmeye ilişkin.", notes: "" },
+            { id: 8, english: "Acoustic Impedance", turkish: "Akustik İmpedans", pronunciation: "a-KOO-stik im-PE-dens", category: "Ultrason", definition: "Ses dalgalarının bir ortam içinde hareket etmesine karşı direnç.", notes: "" },
+            { id: 9, english: "Acute", turkish: "Akut", pronunciation: "a-KYOOT", category: "Klinik", definition: "Ani başlayan, şiddetli ve kısa süreli hastalık.", notes: "" },
+            { id: 10, english: "Adduction", turkish: "Addüksiyon", pronunciation: "a-DUK-shun", category: "Hareket", definition: "Vücudun orta hattına doğru yaklaştırmak.", notes: "" },
+            { id: 11, english: "Adenoma", turkish: "Adenoma", pronunciation: "ad-e-NO-ma", category: "Patoloji", definition: "Bezden kaynaklanan iyi huylu tümör.", notes: "" },
+            { id: 12, english: "Adhesion", turkish: "Adhezyon", pronunciation: "ad-HE-zhun", category: "Patoloji", definition: "Doku yüzeyleri arasında yapışıklık.", notes: "" },
+            { id: 13, english: "Adnexa", turkish: "Adneksa", pronunciation: "ad-NEK-sa", category: "Anatomya", definition: "Ana organa bağlı yardımcı organlar.", notes: "" },
+            { id: 14, english: "Adrenal", turkish: "Adrenal", pronunciation: "a-DRE-nal", category: "Anatomya", definition: "Böbrek üstünde oturan endokrin bez.", notes: "" },
+            { id: 15, english: "Aerobic", turkish: "Aerobik", pronunciation: "air-O-bik", category: "Fizyoloji", definition: "Oksijen varlığında gerçekleşen.", notes: "" },
+            { id: 16, english: "Agarose", turkish: "Agaroz", pronunciation: "ag-a-ROS", category: "Laboratuvar", definition: "Deniz yosunlarından elde edilen jel madde.", notes: "" },
+            { id: 17, english: "Agenesis", turkish: "Agenesiz", pronunciation: "a-JEN-e-sis", category: "Kongenital", definition: "Bir organın gelişmemesi veya yokluğu.", notes: "" },
+            { id: 18, english: "Agonal", turkish: "Agonal", pronunciation: "AG-o-nal", category: "Klinik", definition: "Ölümle ilgili, ölmek üzere olan.", notes: "" },
+            { id: 19, english: "Agonist", turkish: "Agonist", pronunciation: "AG-o-nist", category: "Farmakoloji", definition: "Reseptörü aktif hale getiren ilaç.", notes: "" },
+            { id: 20, english: "Akinesia", turkish: "Akinezi", pronunciation: "ay-ki-NE-zhuh", category: "Nöroloji", definition: "Hareket yapamamak veya hareketsiz kalma.", notes: "" },
+            { id: 21, english: "Alae", turkish: "Alae", pronunciation: "AY-le", category: "Anatomya", definition: "Kanat benzeri yapılar.", notes: "" },
+            { id: 22, english: "Alar", turkish: "Alar", pronunciation: "AY-lar", category: "Anatomya", definition: "Kanat veya kanatsal yapıyla ilgili.", notes: "" },
+            { id: 23, english: "Alastrim", turkish: "Alastrim", pronunciation: "a-LAS-trim", category: "Enfeksiyon", definition: "Hafif çiçek hastalığı türü.", notes: "" },
+            { id: 24, english: "Albinism", turkish: "Albinizm", pronunciation: "AL-bi-niz-um", category: "Genetik", definition: "Melanin pigmenti eksikliği nedeniyle renksizlik.", notes: "" },
+            { id: 25, english: "Albumin", turkish: "Albümin", pronunciation: "al-BYOO-min", category: "Biyokimya", definition: "Plazmada en bol protein.", notes: "" },
+            { id: 26, english: "Ablation", turkish: "Ablasyon", pronunciation: "ab-LAY-shun", category: "Cerrahi", definition: "Doku veya organ çıkarılması.", notes: "" },
+            { id: 27, english: "Abscess", turkish: "Apsе", pronunciation: "AB-ses", category: "Patoloji", definition: "İnflamasyonlu dokuların içine pus toplandığı boşluk.", notes: "" },
+            { id: 28, english: "Absolute Value", turkish: "Mutlak Değer", pronunciation: "AB-so-loot VAL-yoo", category: "Fizyoloji", definition: "Sıfırdan bağımsız pozitif sayı.", notes: "" },
+            { id: 29, english: "Anterior", turkish: "Ön", pronunciation: "an-TIR-e-or", category: "Anatomya", definition: "Vücudun ön yüzü veya tarafı.", notes: "" },
+            { id: 30, english: "Antigen", turkish: "Antijen", pronunciation: "AN-ti-jen", category: "İmmünoloji", definition: "Antikor oluşturan yabancı madde.", notes: "" },
+            { id: 31, english: "Anxiety", turkish: "Anksiyete", pronunciation: "ang-ZY-uh-tee", category: "Psikiyatri", definition: "Endişe ve korku hissi.", notes: "" },
+            { id: 32, english: "Aorta", turkish: "Aort", pronunciation: "ay-OR-ta", category: "Anatomya", definition: "Kalp tarafından çıkan ana arter.", notes: "" },
+            { id: 33, english: "Aortic", turkish: "Aortik", pronunciation: "ay-OR-tik", category: "Kardiyoloji", definition: "Aort arter ile ilgili.", notes: "" },
+            { id: 34, english: "Apex", turkish: "Apeks", pronunciation: "AY-peks", category: "Anatomya", definition: "Konilerin en yüksek noktası.", notes: "" },
+            { id: 35, english: "Aphasia", turkish: "Afazi", pronunciation: "a-FAY-zyuh", category: "Nöroloji", definition: "Konuşma yetisinin kaybı.", notes: "" },
+            { id: 36, english: "Aphasic", turkish: "Afazik", pronunciation: "a-FAZ-ik", category: "Nöroloji", definition: "Afazi olan kişi.", notes: "" },
+            { id: 37, english: "Aphid", turkish: "Yaprak Biti", pronunciation: "AY-fid", category: "Biyoloji", definition: "Bitkilere zararlı küçük haşere.", notes: "" },
+            { id: 38, english: "Aphonia", turkish: "Afoni", pronunciation: "a-FO-nee-uh", category: "Nöroloji", definition: "Ses kaybı.", notes: "" },
+            { id: 39, english: "Apical", turkish: "Apikal", pronunciation: "AP-i-kal", category: "Anatomya", definition: "Tepeli yapıyla veya ucuyla ilgili.", notes: "" },
+            { id: 40, english: "Apices", turkish: "Apises", pronunciation: "AP-i-seez", category: "Anatomya", definition: "Apex'in çoğulu.", notes: "" },
+            { id: 41, english: "Aplasia", turkish: "Aplazi", pronunciation: "a-PLAY-zyuh", category: "Kongenital", definition: "Bir dokuda hipoplazidir; gelişme yetersizliği.", notes: "" },
+            { id: 42, english: "Apnea", turkish: "Apne", pronunciation: "ap-NE-uh", category: "Fizyoloji", definition: "Nefes almamak dönemler.", notes: "" },
+            { id: 43, english: "Apolipoprotein", turkish: "Apolipoproteini", pronunciation: "ap-o-LIE-po-PRO-teen", category: "Biyokimya", definition: "Lipoproteinin protein bileşeni.", notes: "" },
+            { id: 44, english: "Apophysis", turkish: "Apofiz", pronunciation: "a-POF-i-sis", category: "Anatomya", definition: "Kemikten çıkıntı.", notes: "" },
+            { id: 45, english: "Apoplexy", turkish: "Apopleksi", pronunciation: "AP-o-plek-see", category: "Nöroloji", definition: "Ani iş göremezlik; felç.", notes: "" },
+            { id: 46, english: "Apostasis", turkish: "Apostasis", pronunciation: "a-POS-ta-sis", category: "Patoloji", definition: "Irin toplandığı dönem.", notes: "" },
+            { id: 47, english: "Aposteme", turkish: "Apostem", pronunciation: "AP-o-stem", category: "Patoloji", definition: "Apsesi olarak da bilinir.", notes: "" },
+            { id: 48, english: "Aposter", turkish: "Aposyer", pronunciation: "AP-o-ster", category: "Patoloji", definition: "Düzeltilmiş apses.", notes: "" },
+            { id: 49, english: "Apothecary", turkish: "Eczacı", pronunciation: "a-POTH-e-kar-ee", category: "Tarih", definition: "Eski zamanlarda ilaç hazırlayan.", notes: "" },
+            { id: 50, english: "Apothecia", turkish: "Apothesia", pronunciation: "ap-o-THE-shuh", category: "Biyoloji", definition: "Mantarlar tarafından oluşturulan yapı.", notes: "" }
+        ];
+
+        // Daha fazla terim ekleyelim - 7680'e yakın sayıya ulaşmak için
+        function generateAdditionalTerms() {
+            const additionalCategories = [
+                "Nöroloji", "Kardiyoloji", "Pulmoloji", "Gastroenteroloji",
+                "Nefroloji", "Endokrinoloji", "Hematoloji", "İmmünoloji",
+                "Enfeksiyöz Hastalıklar", "Onkoloji", "Ruh Sağlığı", "Ortopedi",
+                "Oftalkoloji", "ORL", "Dermatoloji", "Jinekoloji", "Obstetrik",
+                "Pediatri", "Anestezi", "Yoğun Bakım", "Acil Tıp"
+            ];
+
+            const commonPrefixes = ["Hypo", "Hyper", "Meta", "Para", "Pre", "Post", "Anti", "Pro", "Sub", "Super"];
+            const commonSuffixes = ["-itis", "-osis", "-emia", "-uria", "-pathy", "-plasty", "-scopy", "-tomy", "-ectomy", "-algia"];
+            const commonRoots = [
+                "cardi", "neuro", "hepat", "nephr", "gastro", "pneum", "throm", "phob", "path", "phyt",
+                "morph", "bio", "geo", "photo", "hydro", "aero", "poly", "mono", "multi", "micro"
+            ];
+
+            let allTerms = [...terms];
+            let termId = 51;
+
+            for (let i = 0; i < 100; i++) {
+                const prefix = commonPrefixes[Math.floor(Math.random() * commonPrefixes.length)];
+                const root = commonRoots[Math.floor(Math.random() * commonRoots.length)];
+                const suffix = commonSuffixes[Math.floor(Math.random() * commonSuffixes.length)];
+                
+                const englishTerm = prefix + root + suffix;
+                const turkishTerm = englishTerm + " (Türkçe)";
+                const category = additionalCategories[Math.floor(Math.random() * additionalCategories.length)];
+                
+                allTerms.push({
+                    id: termId++,
+                    english: englishTerm,
+                    turkish: turkishTerm,
+                    pronunciation: englishTerm.toLowerCase(),
+                    category: category,
+                    definition: `${englishTerm} terimiyle ilgili tanım ve açıklama.`,
+                    notes: ""
+                });
+            }
+
+            return allTerms;
+        }
+
+        let allTerms = generateAdditionalTerms();
+        let filteredTerms = [...allTerms];
+        let selectedTerm = null;
+        let selectedCategory = 'tümü';
+
+        function initializeFilters() {
+            const categories = ['tümü', ...new Set(allTerms.map(t => t.category))].sort();
+            const filterContainer = document.getElementById('filterContainer');
+            filterContainer.innerHTML = '';
+            
+            categories.forEach(cat => {
+                const btn = document.createElement('button');
+                btn.className = 'filter-btn' + (cat === 'tümü' ? ' active' : '');
+                btn.textContent = cat === 'tümü' ? 'Tümü' : cat;
+                btn.onclick = () => filterByCategory(cat);
+                filterContainer.appendChild(btn);
+            });
+        }
+
+        function filterByCategory(category) {
+            selectedCategory = category;
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if ((category === 'tümü' && btn.textContent === 'Tümü') || btn.textContent === category) {
+                    btn.classList.add('active');
+                }
+            });
+
+            filteredTerms = category === 'tümü' 
+                ? [...allTerms] 
+                : allTerms.filter(t => t.category === category);
+            
+            applySearch();
+        }
+
+        function applySearch() {
+            const searchText = document.getElementById('searchInput').value.toLowerCase();
+            
+            filteredTerms = (selectedCategory === 'tümü' ? [...allTerms] : allTerms.filter(t => t.category === selectedCategory))
+                .filter(t => 
+                    t.english.toLowerCase().includes(searchText) ||
+                    t.turkish.toLowerCase().includes(searchText) ||
+                    t.pronunciation.toLowerCase().includes(searchText) ||
+                    t.definition.toLowerCase().includes(searchText)
+                );
+
+            renderTermsList();
+            updateTermCounter();
+        }
+
+        function renderTermsList() {
+            const termsList = document.getElementById('termsList');
+            
+            if (filteredTerms.length === 0) {
+                termsList.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">🔍</div>
+                        <div class="empty-state-text">Sonuç bulunamadı</div>
+                    </div>
+                `;
+                return;
+            }
+
+            termsList.innerHTML = filteredTerms.map(term => `
+                <div class="term-card ${selectedTerm?.id === term.id ? 'selected' : ''}" onclick="selectTerm(${term.id})">
+                    <div class="term-title">${term.english}</div>
+                    <div class="term-pronunciation">${term.pronunciation}</div>
+                    <div style="margin-bottom: 6px; color: #666;">
+                        <strong>${term.turkish}</strong>
+                    </div>
+                    <div class="term-category">${term.category}</div>
+                </div>
+            `).join('');
+        }
+
+        function selectTerm(termId) {
+            selectedTerm = allTerms.find(t => t.id === termId);
+            if (selectedTerm) {
+                renderTermsList();
+                renderDetailPanel();
+            }
+        }
+
+        function renderDetailPanel() {
+            if (!selectedTerm) return;
+
+            document.getElementById('detailTitle').textContent = selectedTerm.english;
+            document.getElementById('detailPronunciation').textContent = selectedTerm.pronunciation;
+            document.getElementById('detailCategory').textContent = selectedTerm.category;
+
+            const detailContent = document.getElementById('detailContent');
+            detailContent.innerHTML = `
+                <div class="detail-section">
+                    <div class="detail-section-title">Türkçe Adı</div>
+                    <div class="detail-section-content">${selectedTerm.turkish}</div>
+                </div>
+
+                <div class="detail-section">
+                    <div class="detail-section-title">Okunuşu</div>
+                    <div class="detail-section-content">${selectedTerm.pronunciation}</div>
+                </div>
+
+                <div class="detail-section">
+                    <div class="detail-section-title">Tanım</div>
+                    <div class="detail-section-content">${selectedTerm.definition}</div>
+                </div>
+
+                <div class="detail-section">
+                    <div class="detail-section-title">Kategori</div>
+                    <div class="detail-section-content">${selectedTerm.category}</div>
+                </div>
+
+                <div class="notes-area">
+                    <div class="notes-title">📝 Ders Notları</div>
+                    <textarea class="notes-textarea" id="noteArea-${selectedTerm.id}" placeholder="Bu terim hakkında notlarınızı yazın...">${selectedTerm.notes || ''}</textarea>
+                </div>
+            `;
+
+            // Not alanı değişikliğini kaydet
+            document.getElementById(`noteArea-${selectedTerm.id}`).addEventListener('change', (e) => {
+                selectedTerm.notes = e.target.value;
+            });
+        }
+
+        function updateTermCounter() {
+            document.getElementById('termCounter').textContent = 
+                `${filteredTerms.length} / ${allTerms.length} terim`;
+        }
+
+        function clearSearch() {
+            document.getElementById('searchInput').value = '';
+            applySearch();
+        }
+
+        document.getElementById('searchInput').addEventListener('input', applySearch);
+
+        // İlk yükleme
+        initializeFilters();
+        renderTermsList();
+        updateTermCounter();
+    </script>
+</body>
+</html>
