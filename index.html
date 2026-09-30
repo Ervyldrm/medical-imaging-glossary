@@ -58,7 +58,8 @@
             overflow: hidden;
         }
         .main-area {
-            flex: 1; min-width: 0; background: rgba(255,255,255,0.96);
+            flex: 0 0 300px; width: 300px; min-width: 260px;
+            background: rgba(255,255,255,0.96);
             border-radius: 16px; overflow: hidden; box-shadow: 0 8px 24px rgba(15,23,42,0.15);
             display: flex; flex-direction: column;
         }
@@ -99,7 +100,8 @@
             background: rgba(255,255,255,0.18); color: white;
         }
         .detail-panel {
-            width: 340px; background: rgba(255,255,255,0.97); border-radius: 16px;
+            flex: 1 1 auto; min-width: 0;
+            background: rgba(255,255,255,0.97); border-radius: 16px;
             box-shadow: 0 8px 24px rgba(15,23,42,0.15); overflow: hidden; display: flex; flex-direction: column;
         }
         .detail-header {
@@ -152,11 +154,11 @@
         }
         .empty-state .icon { font-size: 42px; margin-bottom: 10px; }
         @media (max-width: 900px) {
-            .detail-panel { width: 300px; }
+            .main-area { flex-basis: 260px; width: 260px; min-width: 220px; }
         }
         @media (max-width: 760px) {
             .content { display: block; }
-            .main-area { height: 52vh; }
+            .main-area { height: 52vh; width: 100%; flex-basis: auto; min-width: 0; }
             .detail-panel { width: 100%; height: 38vh; margin-top: 12px; }
         }
         .terms-list::-webkit-scrollbar, .detail-content::-webkit-scrollbar { width: 8px; }
@@ -216,13 +218,7 @@
             { english: "Coronal plane", turkish: "Koronal düzlem", pronunciation: "ko-ROH-nul PLAYN", category: "Temel Anatomi", definition: "Vücudu ön ve arka bölümlere ayıran düzlem.", modality: "Anatomi" },
             { english: "Axial plane", turkish: "Aksiyal düzlem", pronunciation: "AK-see-ul PLAYN", category: "Temel Anatomi", definition: "Vücudu üst-alt bölümüne bölen yatay düzlem.", modality: "Anatomi" },
             { english: "Skull", turkish: "Kafatası", pronunciation: "skul", category: "Temel Anatomi", definition: "Beyni ve yüz kemiklerini koruyan iskelet yapısı.", modality: "Anatomi" },
-            { english: "Cranium", turkish: "Kranium", pronunciation: "KRAY-nee-um", category: "Temel Anatomi", definition: "Kafatasının beyin kısmı.", modality: "Anatomi" },
-            { english: "Mandible", turkish: "Alt çene", pronunciation: "MAN-di-bul", category: "Temel Anatomi", definition: "Alt çenenin kemik yapısı.", modality: "Anatomi" },
-            { english: "Clavicle", turkish: "Köprücük kemiği", pronunciation: "KLAV-i-kul", category: "Temel Anatomi", definition: "Omuzu göğüs kafesine bağlayan kemik.", modality: "Anatomi" },
-            { english: "Scapula", turkish: "Omuz kürek kemiği", pronunciation: "SKAP-yuh-luh", category: "Temel Anatomi", definition: "Arka omuzda bulunan geniş üçgen kemik.", modality: "Anatomi" },
-            { english: "Sternum", turkish: "Göğüs kemiği", pronunciation: "STER-num", category: "Temel Anatomi", definition: "Göğüs boşluğunun ön orta hattında yer alan kemik.", modality: "Anatomi" },
             { english: "Rib", turkish: "Kaburga", pronunciation: "rib", category: "Temel Anatomi", definition: "Göğüs boşluğunu çevreleyen kemik yapı.", modality: "Anatomi" },
-            { english: "Vertebra", turkish: "Omur", pronunciation: "VER-tuh-bruh", category: "Temel Anatomi", definition: "Omurga sütununu oluşturan kemik.", modality: "Anatomi" },
             { english: "Spine", turkish: "Omurga", pronunciation: "spine", category: "Temel Anatomi", definition: "Omurların oluşturduğu vücut ekseni.", modality: "Anatomi" },
             { english: "Pelvis", turkish: "Kalça / Pelvis", pronunciation: "PEL-vis", category: "Temel Anatomi", definition: "Alt karın ve pelvis bölgesini oluşturan kemik yapı.", modality: "Anatomi" },
             { english: "Femur", turkish: "Uyluk kemiği", pronunciation: "FEE-mur", category: "Temel Anatomi", definition: "Vücudun en uzun ve güçlü kemiği.", modality: "Anatomi" },
@@ -232,42 +228,17 @@
             { english: "Humerus", turkish: "Kol kemiği", pronunciation: "HYOO-mer-us", category: "Temel Anatomi", definition: "Omuzdan dirseğe kadar uzanan üst kol kemiği.", modality: "Anatomi" },
             { english: "Radius", turkish: "Ön kol dış kemiği", pronunciation: "RAY-dee-us", category: "Temel Anatomi", definition: "Dirsekten bileğe uzanan ön kol kemiği.", modality: "Anatomi" },
             { english: "Ulna", turkish: "Ön kol iç kemiği", pronunciation: "UL-nuh", category: "Temel Anatomi", definition: "Ön kolun iç tarafındaki kemik.", modality: "Anatomi" },
-            { english: "Carpal bones", turkish: "El bilek kemikleri", pronunciation: "KAR-pul BOHNZ", category: "Temel Anatomi", definition: "Bileğin küçük kemikleri.", modality: "Anatomi" },
-            { english: "Tarsal bones", turkish: "Ayak bilek kemikleri", pronunciation: "TAR-sul BOHNZ", category: "Temel Anatomi", definition: "Ayak bileğinde yer alan kemikler.", modality: "Anatomi" },
-            { english: "Joint", turkish: "Eklem", pronunciation: "joynt", category: "Temel Anatomi", definition: "İki kemik veya kemik grubu arasında hareketi sağlayan yapı.", modality: "Anatomi" },
-            { english: "Ligament", turkish: "Bağ", pronunciation: "LIG-uh-ment", category: "Temel Anatomi", definition: "Kemikleri bir arada tutan güçlü bağ dokusu.", modality: "Anatomi" },
-            { english: "Tendon", turkish: "Tendon", pronunciation: "TEN-dun", category: "Temel Anatomi", definition: "Kasları kemiğe bağlayan yapıya tendon denir.", modality: "Anatomi" },
-            { english: "Cartilage", turkish: "Kıkırdak", pronunciation: "KAR-ti-lij", category: "Temel Anatomi", definition: "Esnek ve yumuşak yapıya sahip bağ doku.", modality: "Anatomi" },
-            { english: "Muscle", turkish: "Kas", pronunciation: "MUS-ul", category: "Temel Anatomi", definition: "İskelete veya iç organlara hareket kazandıran doku.", modality: "Anatomi" },
-            { english: "Cardiac muscle", turkish: "Kalp kası", pronunciation: "KAR-dee-ak MUS-ul", category: "Temel Anatomi", definition: "Kalbin duvarını oluşturan kas türü.", modality: "Anatomi" },
-            { english: "Skeletal muscle", turkish: "İskelet kası", pronunciation: "SKEL-uh-tul MUS-ul", category: "Temel Anatomi", definition: "İskelete bağlı olarak hareketi sağlayan kas.", modality: "Anatomi" },
-            { english: "Smooth muscle", turkish: "Düz kas", pronunciation: "smooTH MUS-ul", category: "Temel Anatomi", definition: "İç organların duvarında bulunan kas türü.", modality: "Anatomi" },
             { english: "Heart", turkish: "Kalp", pronunciation: "hart", category: "Temel Anatomi", definition: "Kanı vücuda pompalayan organ.", modality: "Anatomi" },
             { english: "Lung", turkish: "Akciğer", pronunciation: "lung", category: "Temel Anatomi", definition: "Gaz değişiminin yapıldığı solunum organı.", modality: "Anatomi" },
-            { english: "Bronchi", turkish: "Bronşlar", pronunciation: "BRONK-eye", category: "Temel Anatomi", definition: "Trakeadan ayrılan hava yolunun dalları.", modality: "Anatomi" },
-            { english: "Trachea", turkish: "Trakea / Hava borusu", pronunciation: "TRAY-kee-uh", category: "Temel Anatomi", definition: "Ağızdan ya da burundan akciğerlere hava taşıyan boru.", modality: "Anatomi" },
-            { english: "Diaphragm", turkish: "Diyafram", pronunciation: "DYE-uh-fram", category: "Temel Anatomi", definition: "Solunum hareketini sağlayan kas.", modality: "Anatomi" },
             { english: "Brain", turkish: "Beyin", pronunciation: "brayn", category: "Temel Anatomi", definition: "Merkezi sinir sistemi kontrolinin yapıldığı organ.", modality: "Anatomi" },
-            { english: "Cerebrum", turkish: "Beyin yarımküresi / serebrum", pronunciation: "suh-REE-brum", category: "Temel Anatomi", definition: "Beynin en büyük kısmı; düşünce ve motor işlevleri ile ilişkilidir.", modality: "Anatomi" },
-            { english: "Cerebellum", turkish: "Beyincik", pronunciation: "ser-uh-BEL-um", category: "Temel Anatomi", definition: "Koordinasyon ve denge işlevlerinden sorumlu yapı.", modality: "Anatomi" },
-            { english: "Spinal cord", turkish: "Omurilik", pronunciation: "SPY-nul kord", category: "Temel Anatomi", definition: "Beyin ile vücut arasında sinyal iletimini sağlayan yapı.", modality: "Anatomi" },
-            { english: "Nerve", turkish: "Sinir", pronunciation: "nerv", category: "Temel Anatomi", definition: "İletim hücreleri ve liflerinden oluşan sinyal taşıyıcı yapı.", modality: "Anatomi" },
+            { english: "Liver", turkish: "Karaciğer", pronunciation: "LIV-er", category: "Temel Anatomi", definition: "Metabolizma, detoksifikasyon ve safra üretimi ile ilgili organ.", modality: "Anatomi" },
+            { english: "Kidney", turkish: "Böbrek", pronunciation: "KID-nee", category: "Temel Anatomi", definition: "İdrar üretimi ve kan filtrasyonundan sorumlu organ.", modality: "Anatomi" },
+            { english: "Stomach", turkish: "Mide", pronunciation: "STUM-uk", category: "Temel Anatomi", definition: "Gıdaların depolanıp işlenmesi için kullanılan organ.", modality: "Anatomi" },
+            { english: "Pancreas", turkish: "Pankreas", pronunciation: "PAN-kree-us", category: "Temel Anatomi", definition: "Sindirim enzimleri ve hormon üreten bez.", modality: "Anatomi" },
             { english: "Artery", turkish: "Arter", pronunciation: "AR-ter-ee", category: "Temel Anatomi", definition: "Kalpten giden kanı taşıyan damarlardır.", modality: "Anatomi" },
             { english: "Vein", turkish: "Ven", pronunciation: "vayn", category: "Temel Anatomi", definition: "Kalbe kanı taşıyan damar.", modality: "Anatomi" },
             { english: "Capillary", turkish: "Kapiller", pronunciation: "KAP-ih-lair-ee", category: "Temel Anatomi", definition: "Doku hücrelerine gaz ve besin alışverişi sağlayan küçük damar.", modality: "Anatomi" },
-            { english: "Liver", turkish: "Karaciğer", pronunciation: "LIV-er", category: "Temel Anatomi", definition: "Metabolizma, detoksifikasyon ve safra üretimi ile ilgili organ.", modality: "Anatomi" },
-            { english: "Gallbladder", turkish: "Safra kesesi", pronunciation: "GAWL-blad-er", category: "Temel Anatomi", definition: "Safra depolayan küçük kesecik.", modality: "Anatomi" },
-            { english: "Stomach", turkish: "Mide", pronunciation: "STUM-uk", category: "Temel Anatomi", definition: "Gıdaların depolanıp mekanik-mekanik olarak işlenmesi için kullanılan organ.", modality: "Anatomi" },
-            { english: "Small intestine", turkish: "Küçük bağırsak", pronunciation: "SMALL in-TES-tin", category: "Temel Anatomi", definition: "Besin emiliminin büyük kısmının olduğu bağırsak bölümü.", modality: "Anatomi" },
-            { english: "Large intestine", turkish: "Kalın bağırsak", pronunciation: "LARJ in-TES-tin", category: "Temel Anatomi", definition: "Su emilimi ve dışkı oluşumunun olduğu bağırsak bölümü.", modality: "Anatomi" },
-            { english: "Pancreas", turkish: "Pankreas", pronunciation: "PAN-kree-us", category: "Temel Anatomi", definition: "Sindirim enzimleri ve hormon üreten bez.", modality: "Anatomi" },
-            { english: "Spleen", turkish: "Dalak", pronunciation: "splen", category: "Temel Anatomi", definition: "Bağışıklık sistemi ve kan depolaması ile ilişkili organ.", modality: "Anatomi" },
-            { english: "Kidney", turkish: "Böbrek", pronunciation: "KID-nee", category: "Temel Anatomi", definition: "İdrar üretimi ve kan filtrasyonundan sorumlu organ.", modality: "Anatomi" },
-            { english: "Ureter", turkish: "Üreter", pronunciation: "YOO-ree-ter", category: "Temel Anatomi", definition: "Böbrekten mesaneye idrar taşıyan boru.", modality: "Anatomi" },
-            { english: "Bladder", turkish: "Mesane", pronunciation: "BLAD-er", category: "Temel Anatomi", definition: "İdrarın depolandığı boş organ.", modality: "Anatomi" },
-            { english: "Thyroid gland", turkish: "Tiroid bezi", pronunciation: "THY-royd gland", category: "Temel Anatomi", definition: "Metabolizmayı kontrol eden hormon üreten bez.", modality: "Anatomi" },
-            { english: "Adrenal gland", turkish: "Böbrek üstü bez", pronunciation: "uh-DREE-nul gland", category: "Temel Anatomi", definition: "Stres hormonları üreten bez.", modality: "Anatomi" },
-            { english: "Lymph node", turkish: "Lenf nodülü", pronunciation: "LIMF NOHD", category: "Temel Anatomi", definition: "Bağışıklık sistemi hücrelerinin toplandığı küçük yapılar.", modality: "Anatomi" },
+            { english: "Nerve", turkish: "Sinir", pronunciation: "nerv", category: "Temel Anatomi", definition: "İletim hücreleri ve liflerinden oluşan sinyal taşıyıcı yapı.", modality: "Anatomi" },
             { english: "X-ray", turkish: "X-ışını / Röntgen", pronunciation: "Eks-ray", category: "Radyoloji Teknikleri", definition: "Elektronların hedefe çarpmasıyla oluşan elektromanyetik radyasyon kullanılarak görüntü oluşturan yöntem.", modality: "Radyografi" },
             { english: "Radiography", turkish: "Radyografi", pronunciation: "ray-dee-OG-rah-fee", category: "Radyoloji Teknikleri", definition: "Röntgen ışınlarıyla vücudun iç yapısını görüntüleme tekniği.", modality: "Radyografi" },
             { english: "Computed tomography", turkish: "Bilgisayarlı tomografi", pronunciation: "kom-PYOO-tid tow-MOG-rah-fee", category: "Radyoloji Teknikleri", definition: "Bilgisayarlı rekonstrüksiyonla kesitsel görüntü üreten tomografi yöntemi.", modality: "BT" },
@@ -279,57 +250,23 @@
             { english: "Fluoroscopy", turkish: "Floroskopi", pronunciation: "floo-ROS-kuh-pee", category: "Radyoloji Teknikleri", definition: "Gerçek zamanlı hareketli X-ışını görüntüleme tekniği.", modality: "Radyografi" },
             { english: "Mammography", turkish: "Mamografi", pronunciation: "mam-OG-rah-fee", category: "Radyoloji Teknikleri", definition: "Meme dokusunun X-ışını ile değerlendirilmesi.", modality: "Mamografi" },
             { english: "Angiography", turkish: "Anjiyografi", pronunciation: "an-jee-OG-rah-fee", category: "Radyoloji Teknikleri", definition: "Damarların kontrast madde ile görüntülenmesi.", modality: "Anjiyografi" },
-            { english: "Densitometry", turkish: "Densitometri", pronunciation: "den-sih-TOM-uh-tree", category: "Radyoloji Teknikleri", definition: "Kemik yoğunluğunun ölçülmesi için kullanılan yöntem.", modality: "Radyoloji" },
             { english: "Contrast media", turkish: "Kontrast madde", pronunciation: "KON-trast MEE-dee-uh", category: "Radyoloji Teknikleri", definition: "Vücut yapılarının daha iyi görünmesi için kullanılan madde.", modality: "Kontrast" },
             { english: "Artifact", turkish: "Artefakt", pronunciation: "AR-tuh-fakt", category: "Radyoloji Teknikleri", definition: "Görüntüde gerçek olmayan, yapay izin veren oluşum.", modality: "Tüm Modaliteler" },
-            { english: "Noise", turkish: "Gürültü", pronunciation: "noyz", category: "Radyoloji Teknikleri", definition: "Görüntüde istenmeyen rastgele değişkenlik.", modality: "Tüm Modaliteler" },
             { english: "Resolution", turkish: "Çözünürlük", pronunciation: "rez-uh-LOO-shun", category: "Radyoloji Teknikleri", definition: "Bir görüntüde ayrılabilen detayların miktarı.", modality: "Tüm Modaliteler" },
-            { english: "Field of view", turkish: "Görüş alanı", pronunciation: "feeld uhv vyoo", category: "Radyoloji Teknikleri", definition: "Görüntüleyici cihazın görüntülediği alan.", modality: "Tüm Modaliteler" },
             { english: "Voxel", turkish: "Voksel", pronunciation: "VOX-el", category: "Radyoloji Teknikleri", definition: "Üç boyutlu görüntüleme için kullanılan hacimsel piksel birimi.", modality: "BT / MR" },
-            { english: "Slice thickness", turkish: "Kesit kalınlığı", pronunciation: "slise THIK-nis", category: "Radyoloji Teknikleri", definition: "Tomografik kesitin kalınlık boyutudur.", modality: "BT / MR" },
-            { english: "Hounsfield unit", turkish: "Hounsfield birimi", pronunciation: "HOWNS-feeld YOO-nit", category: "Radyoloji Teknikleri", definition: "BT görüntülerindeki yoğunluk ölçüm birimi.", modality: "BT" },
             { english: "T1-weighted", turkish: "T1 ağırlıklı", pronunciation: "tee-wuhn WAYT-id", category: "Radyoloji Teknikleri", definition: "T1 ağırlıklı manyetik rezonans görüntüleme serisi.", modality: "MR" },
             { english: "T2-weighted", turkish: "T2 ağırlıklı", pronunciation: "tee-too WAYT-id", category: "Radyoloji Teknikleri", definition: "T2 ağırlıklı manyetik rezonans görüntüleme serisi.", modality: "MR" },
-            { english: "FLAIR", turkish: "FLAIR", pronunciation: "flair", category: "Radyoloji Teknikleri", definition: "Sıvı baskılanmış manyetik rezonans görüntüleme sekansı.", modality: "MR" },
-            { english: "Diffusion weighted imaging", turkish: "Difüzyon ağırlıklı görüntüleme", pronunciation: "dih-FYOO-zhun WAYT-id IM-uh-jing", category: "Radyoloji Teknikleri", definition: "Moleküler hareketi gösteren MR görüntüleme yöntemi.", modality: "MR" },
-            { english: "DWI", turkish: "DWI", pronunciation: "dee-double-you-eye", category: "Radyoloji Teknikleri", definition: "Difüzyon ağırlıklı görüntülemenin kısaltması.", modality: "MR" },
-            { english: "ADC", turkish: "ADC", pronunciation: "A-D-C", category: "Radyoloji Teknikleri", definition: "Difüzyon katsayısı görüntüleme parametresi.", modality: "MR" },
-            { english: "Echogenicity", turkish: "Ekojenite", pronunciation: "ek-oh-juh-NIS-i-tee", category: "Radyoloji Teknikleri", definition: "Ultrason görüntüsünde dokunun ses yansıtma özelliği.", modality: "US" },
-            { english: "Hyperechoic", turkish: "Hiperekoik", pronunciation: "hi-per-uh-KOH-ik", category: "Radyoloji Teknikleri", definition: "Ultrason görüntüsünde daha parlak görünen doku.", modality: "US" },
-            { english: "Hypoechoic", turkish: "Hipoekoik", pronunciation: "hye-poh-uh-KOH-ik", category: "Radyoloji Teknikleri", definition: "Ultrason görüntüsünde daha koyu görünen doku.", modality: "US" },
-            { english: "Anechoic", turkish: "Anekoik", pronunciation: "an-uh-KOH-ik", category: "Radyoloji Teknikleri", definition: "Ultrason görüntüsünde siyah görünüm gösteren sıvı içeren alan.", modality: "US" },
             { english: "Doppler", turkish: "Doppler", pronunciation: "DOP-ler", category: "Radyoloji Teknikleri", definition: "Kan akımının değerlendirilmesinde kullanılan ultrason tekniği.", modality: "US" },
-            { english: "Gain", turkish: "Gain / Kazanç", pronunciation: "gayn", category: "Radyoloji Teknikleri", definition: "Ultrason sinyal gücünü artıran ayar.", modality: "US" },
-            { english: "Depth", turkish: "Derinlik", pronunciation: "depth", category: "Radyoloji Teknikleri", definition: "Ultrason görüntüleme sırasında incelenen mesafe derinliği.", modality: "US" },
-            { english: "Acoustic shadowing", turkish: "Akustik gölgeleme", pronunciation: "uh-KOO-stik SHAD-oh-ing", category: "Radyoloji Teknikleri", definition: "Ses dalgalarının yoğun doku tarafından engellenmesi sonucu oluşan koyu alan.", modality: "US" },
-            { english: "Attenuation", turkish: "Zayıflama", pronunciation: "uh-TEN-yoo-AY-shun", category: "Radyoloji Teknikleri", definition: "Işının veya ses dalgasının madde içinde zayıflaması.", modality: "Radyoloji" },
-            { english: "Absorption", turkish: "Emilim", pronunciation: "ub-SORP-shun", category: "Radyoloji Teknikleri", definition: "Enerjinin dokular tarafından emilmesi.", modality: "Radyoloji" },
-            { english: "Scattering", turkish: "Saçılma", pronunciation: "SKAT-er-ing", category: "Radyoloji Teknikleri", definition: "Işın veya ses dalgasının yön değiştirmesidir.", modality: "Radyoloji" },
             { english: "Radiation protection", turkish: "Radyasyon korunması", pronunciation: "RAY-dee-AY-shun pro-TEK-shun", category: "Radyasyon Güvenliği", definition: "Maruziyetin en düşük düzeyde tutulması için alınan önlemler.", modality: "Radyasyon Güvenliği" },
             { english: "ALARA", turkish: "ALARA", pronunciation: "uh-LAH-rah", category: "Radyasyon Güvenliği", definition: "As Low As Reasonably Achievable / Mümkün olduğunca düşük.", modality: "Radyasyon Güvenliği" },
-            { english: "Dosimeter", turkish: "Dozimetre", pronunciation: "doh-SIM-uh-ter", category: "Radyasyon Güvenliği", definition: "Kişinin aldığı radyasyon dozunu ölçen cihaz.", modality: "Radyasyon Güvenliği" },
-            { english: "Lead apron", turkish: "Kurşun önlük", pronunciation: "leed AP-urn", category: "Radyasyon Güvenliği", definition: "Personelin radyasyon maruziyetini azaltmak için giyilen koruyucu önlük.", modality: "Radyasyon Güvenliği" },
-            { english: "Shielding", turkish: "Koruma / kalkanlama", pronunciation: "SHEEL-ding", category: "Radyasyon Güvenliği", definition: "Radyasyonun hedef dışı alanlara ulaşmasını azaltma yöntemi.", modality: "Radyasyon Güvenliği" },
-            { english: "Scatter radiation", turkish: "Saçılan radyasyon", pronunciation: "SKAT-er RAY-dee-AY-shun", category: "Radyasyon Güvenliği", definition: "Arz edilen hedef dışı yöne saçılan radyasyon.", modality: "Radyasyon Güvenliği" },
             { english: "Fracture", turkish: "Kırık", pronunciation: "FRAK-chur", category: "Patoloji", definition: "Kemik yapısının sürekliliğinin bozulması.", modality: "Radyografi" },
-            { english: "Dislocation", turkish: "Çıkık", pronunciation: "dis-loh-KAY-shun", category: "Patoloji", definition: "Eklem yüzeylerinin normal yerlerinden çıkması.", modality: "Radyografi" },
             { english: "Pneumonia", turkish: "Pnömoni", pronunciation: "noo-MOH-nee-uh", category: "Patoloji", definition: "Akciğer dokusunda enfeksiyon kaynaklı inflamasyon.", modality: "Radyografi / BT" },
-            { english: "Pleural effusion", turkish: "Plevral efüzyon", pronunciation: "PLOOR-ul eh-FYOO-zhun", category: "Patoloji", definition: "Plevra boşluğunda sıvı birikmesi.", modality: "Radyografi / BT" },
             { english: "Nodule", turkish: "Nodül", pronunciation: "NOD-yool", category: "Patoloji", definition: "Doku içinde yuvarlak, içi dolu küçük lezyon.", modality: "Radyografi / BT / MR" },
-            { english: "Mass", turkish: "Kitle", pronunciation: "mas", category: "Patoloji", definition: "Normal doku sınırlarından ayrılan büyüklü kütle.", modality: "Radyografi / BT / MR" },
             { english: "Cyst", turkish: "Kist", pronunciation: "sist", category: "Patoloji", definition: "Duvarı olan, içi sıvı dolu boşluk.", modality: "Ultrason / BT / MR" },
             { english: "Edema", turkish: "Ödem", pronunciation: "eh-DEE-muh", category: "Patoloji", definition: "Dokularda sıvı birikmesi.", modality: "Radyoloji" },
-            { english: "Infarction", turkish: "İnfarkt", pronunciation: "in-FARK-shun", category: "Patoloji", definition: "Kan akımının kesilmesi sonucu dokunun ölümü.", modality: "Radyoloji / Nükleer Tıp" },
-            { english: "Hematoma", turkish: "Hematom", pronunciation: "hee-muh-TOH-muh", category: "Patoloji", definition: "Doku içinde kan birikmesi.", modality: "Radyografi / BT / US" },
             { english: "Tumor", turkish: "Tümör", pronunciation: "TOO-mer", category: "Patoloji", definition: "Kontrolsüz doku çoğalması.", modality: "Radyoloji" },
             { english: "Malignancy", turkish: "Malignite", pronunciation: "muh-LIG-nuhn-see", category: "Patoloji", definition: "Kanser hücrelerinin bulunduğu, ilerleyici hastalık.", modality: "Radyoloji" },
-            { english: "Metastasis", turkish: "Metastaz", pronunciation: "muh-TAS-tuh-sis", category: "Patoloji", definition: "Hastalık hücrelerinin ana dokudan başka organa yayılması.", modality: "Radyoloji" },
             { english: "Inflammation", turkish: "İnflamasyon", pronunciation: "in-fluh-MAY-shun", category: "Patoloji", definition: "Doku hasarı sonrası oluşan iltihaplanma reaksiyonu.", modality: "Radyoloji" },
-            { english: "Osteoarthritis", turkish: "Osteoartrit", pronunciation: "OS-tee-oh-ar-THRITE-is", category: "Patoloji", definition: "Eklem kıkırdağının yıpranması ile oluşan hastalık.", modality: "Radyografi" },
-            { english: "Osteoporosis", turkish: "Osteoporoz", pronunciation: "OS-tee-oh-por-OH-sis", category: "Patoloji", definition: "Kemik yoğunluğunun azalması ile karakterize hastalık.", modality: "Densitometri / Radyografi" },
-            { english: "Aneurysm", turkish: "Anevrizma", pronunciation: "AN-yuh-rizm", category: "Patoloji", definition: "Damarda genişleme veya balonlaşma.", modality: "Anjiyografi / BT" },
-            { english: "Stenosis", turkish: "Stenoz", pronunciation: "stuh-NOH-sis", category: "Patoloji", definition: "Bir kanal ya da damar çapının daralması.", modality: "Anjiyografi / CT / MR" },
-            { english: "Occlusion", turkish: "Oklüzyon / tıkanma", pronunciation: "uh-KLOO-zhun", category: "Patoloji", definition: "Damar ya da kanalda tam veya kısmi tıkanma.", modality: "Anjiyografi / BT" },
             { english: "Cervical", turkish: "Servikal", pronunciation: "SER-vih-kul", category: "Radyolojik Anatomi", definition: "Boyun bölgesiyle ilgili.", modality: "Radyografi / BT / MR" },
             { english: "Thoracic", turkish: "Torasik", pronunciation: "thuh-RAS-ik", category: "Radyolojik Anatomi", definition: "Göğüs bölgesiyle ilgili.", modality: "Radyografi / BT / MR" },
             { english: "Lumbar", turkish: "Lomber", pronunciation: "LUM-bar", category: "Radyolojik Anatomi", definition: "Bel bölgesiyle ilgili.", modality: "Radyografi / BT / MR" },
@@ -340,18 +277,8 @@
             { english: "Elbow", turkish: "Dirsek", pronunciation: "EL-boh", category: "Radyolojik Anatomi", definition: "Üst kol ve ön kolun birleştiği eklem.", modality: "Radyografi / US / MR" },
             { english: "Knee", turkish: "Diz", pronunciation: "nee", category: "Radyolojik Anatomi", definition: "Bacak ve uyluğun buluştuğu eklem.", modality: "Radyografi / MRI / US" },
             { english: "Ankle", turkish: "Ayak bileği", pronunciation: "ANK-ul", category: "Radyolojik Anatomi", definition: "Bacak ile ayak arasındaki eklem.", modality: "Radyografi / US / MR" },
-            { english: "Frontal sinus", turkish: "Frontal sinüs", pronunciation: "FRUN-tul SYE-nus", category: "Radyolojik Anatomi", definition: "Alın bölgesinde yer alan hava boşluğu.", modality: "Radyografi / BT" },
-            { english: "Maxillary sinus", turkish: "Maksiller sinüs", pronunciation: "MAK-sil-air-ee SYE-nus", category: "Radyolojik Anatomi", definition: "Yüz kemiklerinde yer alan sinus boşluğu.", modality: "Radyografi / BT" },
-            { english: "Lobe", turkish: "Lob", pronunciation: "lohb", category: "Radyolojik Anatomi", definition: "Bir organın anatomik bölümü.", modality: "BT / MR" },
-            { english: "Hilum", turkish: "Hilum", pronunciation: "HYE-lum", category: "Radyolojik Anatomi", definition: "Organların damar ve yapı giriş çıkış alanı.", modality: "BT / MR" },
-            { english: "Parenchyma", turkish: "Parankim", pronunciation: "puh-RENG-kih-muh", category: "Radyolojik Anatomi", definition: "Organın fonksiyonel doku kısmı.", modality: "BT / MR / US" },
-            { english: "Peritoneum", turkish: "Periton", pronunciation: "pair-i-tuh-NEE-um", category: "Radyolojik Anatomi", definition: "Karın boşluğunu kaplayan zar.", modality: "BT / US" },
-            { english: "Mediastinum", turkish: "Mediastinum", pronunciation: "mee-dee-uh-STY-num", category: "Radyolojik Anatomi", definition: "Göğüs boşluğunun orta kısmındaki alan.", modality: "BT / Radyografi" },
-            { english: "Apex", turkish: "Apeks", pronunciation: "AY-peks", category: "Radyolojik Anatomi", definition: "Bir organın üst veya zirve kısmı.", modality: "Radyografi / BT / MR" },
-            { english: "Base", turkish: "Baz", pronunciation: "bays", category: "Radyolojik Anatomi", definition: "Organın alt ya da taban kısmı.", modality: "Radyografi / BT / MR" },
             { english: "Subcutaneous", turkish: "Derialtı", pronunciation: "sub-kyoo-TAY-nee-us", category: "Tıbbi Terminoloji", definition: "Cilt altında yer alan doku.", modality: "Anatomi" },
             { english: "Intravenous", turkish: "İntravenöz", pronunciation: "in-truh-VEE-nus", category: "Tıbbi Terminoloji", definition: "Damar içine verilen ve damar içi yoldan uygulanan.", modality: "Kontrast / ilaç" },
-            { english: "Oral", turkish: "Ağız yoluyla", pronunciation: "OR-ul", category: "Tıbbi Terminoloji", definition: "Ağızdan alınan ya da uygulanan.", modality: "İlaç / Kontrast" },
             { english: "Bilateral", turkish: "Bilateral / Çift taraflı", pronunciation: "bye-LAT-er-ul", category: "Tıbbi Terminoloji", definition: "Her iki tarafı ilgilendiren durum.", modality: "Anatomi / Klinik" },
             { english: "Unilateral", turkish: "Unilateral / Tek taraflı", pronunciation: "yoo-nih-LAT-er-ul", category: "Tıbbi Terminoloji", definition: "Tek tarafı ilgilendiren durum.", modality: "Klinik" },
             { english: "Acute", turkish: "Akut", pronunciation: "uh-KYOOT", category: "Tıbbi Terminoloji", definition: "Ani başlayan, kısa süreli ve şiddetli durum.", modality: "Klinik" },
@@ -359,14 +286,7 @@
             { english: "Benign", turkish: "İyi huylu", pronunciation: "bih-NINE", category: "Tıbbi Terminoloji", definition: "Zarar verici olmayan, büyümesi sınırlı olan durum.", modality: "Patoloji" },
             { english: "Malignant", turkish: "Kötü huylu", pronunciation: "muh-LIG-nunt", category: "Tıbbi Terminoloji", definition: "İlerleyici ve yayılma eğilimi olan durum.", modality: "Patoloji" },
             { english: "Symptom", turkish: "Belirti", pronunciation: "SIMP-tum", category: "Tıbbi Terminoloji", definition: "Hasta tarafından hissedilen veya tanımlanan durum.", modality: "Klinik" },
-            { english: "Sign", turkish: "Bulgu", pronunciation: "sine", category: "Tıbbi Terminoloji", definition: "Muayene veya tetkik ile saptanan durum.", modality: "Klinik" },
             { english: "Diagnosis", turkish: "Tanı", pronunciation: "dye-uhg-NOH-sis", category: "Tıbbi Terminoloji", definition: "Hastalığın tanımlanması.", modality: "Klinik" },
-            { english: "Prognosis", turkish: "Prognoz", pronunciation: "prog-NOH-sis", category: "Tıbbi Terminoloji", definition: "Hastalığın seyri ve iyileşme ihtimali hakkında öngörü.", modality: "Klinik" },
-            { english: "Pathology", turkish: "Patoloji", pronunciation: "puh-THOL-uh-jee", category: "Tıbbi Terminoloji", definition: "Hastalıkların nedenleri, süreçleri ve etkilerini inceleyen bilim dalı.", modality: "Patoloji" },
-            { english: "Etiology", turkish: "Etiyoloji", pronunciation: "ee-tee-OL-uh-jee", category: "Tıbbi Terminoloji", definition: "Hastalık nedeninin araştırılması.", modality: "Klinik" },
-            { english: "Morphology", turkish: "Morfoloji", pronunciation: "mor-FOL-uh-jee", category: "Tıbbi Terminoloji", definition: "Yapı ve biçim incelenmesi.", modality: "Patoloji / Anatomi" },
-            { english: "Anatomy", turkish: "Anatomi", pronunciation: "uh-NAT-uh-mee", category: "Tıbbi Terminoloji", definition: "Vücudun yapılarının incelenmesi.", modality: "Anatomi" },
-            { english: "Physiology", turkish: "Fizyoloji", pronunciation: "fiz-ee-OL-uh-jee", category: "Tıbbi Terminoloji", definition: "Canlıların fonksiyonlarının incelenmesi.", modality: "Fizyoloji" },
             { english: "Radiology", turkish: "Radyoloji", pronunciation: "ray-dee-OL-uh-jee", category: "Tıbbi Terminoloji", definition: "Radyasyon kullanılarak vücut içi yapıları ve hastalıkları inceleyen tıp dalı.", modality: "Radyoloji" },
             { english: "Technique", turkish: "Teknik", pronunciation: "tek-NEEK", category: "Tıbbi Terminoloji", definition: "Görüntüleme için kullanılan yöntem ve uygulama biçimi.", modality: "Radyoloji" },
             { english: "Protocol", turkish: "Protokol", pronunciation: "PROH-tuh-kol", category: "Tıbbi Terminoloji", definition: "Bir görüntüleme için belirlenen standart uygulama düzeni.", modality: "Radyoloji" },
@@ -374,7 +294,6 @@
             { english: "Projection", turkish: "Projeksiyon", pronunciation: "proh-JEK-shun", category: "Tıbbi Terminoloji", definition: "Işın yoluna göre görüntü elde etme yönü.", modality: "Radyografi" },
             { english: "AP view", turkish: "AP görünümü", pronunciation: "A-P vyoo", category: "Radyoloji Teknikleri", definition: "Anterior-posterior yönünde alınan radyografi görünümü.", modality: "Radyografi" },
             { english: "Lateral view", turkish: "Lateral görünüm", pronunciation: "LAT-er-ul vyoo", category: "Radyoloji Teknikleri", definition: "Yandan alınan görüntüleme görünümü.", modality: "Radyografi" },
-            { english: "Oblique view", turkish: "Oblik görünüm", pronunciation: "oh-BLEEK vyoo", category: "Radyoloji Teknikleri", definition: "Normal eksenlere göre eğik alınan görüntü.", modality: "Radyografi" },
             { english: "Collimation", turkish: "Kolimasyon", pronunciation: "kol-ih-MAY-shun", category: "Radyoloji Teknikleri", definition: "Radyasyon alanını daraltarak görüntüleme alanını sınırlama işlemi.", modality: "Radyografi" },
             { english: "Grid", turkish: "Grid / Izgara", pronunciation: "grid", category: "Radyoloji Teknikleri", definition: "Saçılan radyasyonun azaltılmasında kullanılan ızgara yapısı.", modality: "Radyografi" },
             { english: "Exposure", turkish: "Maruziyet / ekspoziyon", pronunciation: "ik-SPOH-zhur", category: "Radyoloji Teknikleri", definition: "Cihazın radyasyona maruz bırakma düzeyi.", modality: "Radyografi" },
@@ -384,9 +303,7 @@
             { english: "OID", turkish: "OID", pronunciation: "oh-eye-dee", category: "Radyoloji Teknikleri", definition: "Obje-görüntüleme mesafesi.", modality: "Radyografi" },
             { english: "Windowing", turkish: "Pencereleme", pronunciation: "WIN-doh-ing", category: "Radyoloji Teknikleri", definition: "BT ve MR görüntülerinde gri ton aralığının ayarlanması.", modality: "BT / MR" },
             { english: "Reconstruction", turkish: "Rekonstrüksiyon", pronunciation: "ree-kon-STRUK-shun", category: "Radyoloji Teknikleri", definition: "Kesitsel veriden 3D veya farklı görüntü formuna dönüştürme işlemi.", modality: "BT / MR" },
-            { english: "Gantry", turkish: "Gantry / Cihaz kolu", pronunciation: "GAN-tree", category: "Radyoloji Teknikleri", definition: "BT cihazında halka şeklindeki aparat yapısı.", modality: "BT" },
-            { english: "Pitch", turkish: "Pitch / Kılavuz oranı", pronunciation: "pitch", category: "Radyoloji Teknikleri", definition: "BT tarama sırasında masanın ilerleme mesafesi ile kesit genişliği oranı.", modality: "BT" },
-            { english: "Matrix", turkish: "Matris", pronunciation: "MAY-triks", category: "Radyoloji Teknikleri", definition: "Görüntünün düzenlendiği piksel veya hücre dizisi.", modality: "BT / MR / Radyografi" }
+            { english: "Pitch", turkish: "Pitch / Kılavuz oranı", pronunciation: "pitch", category: "Radyoloji Teknikleri", definition: "BT tarama sırasında masanın ilerleme mesafesi ile kesit genişliği oranı.", modality: "BT" }
         ];
 
         const allTerms = [...terms];
