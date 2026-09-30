@@ -3,467 +3,198 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Tıbbi Radyoloji Terimler Sözlüğü</title>
+    <title>Tıbbi Görüntüleme Terminolojisi Sözlüğü</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
-            -webkit-user-select: none;
-            user-select: none;
-        }
-
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
         html, body {
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            width: 100%; height: 100%;
+            background: linear-gradient(135deg, #0f172a 0%, #1d4ed8 35%, #7c3aed 100%);
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             overflow: hidden;
         }
-
         .container {
-            display: flex;
-            height: 100vh;
-            flex-direction: column;
+            display: flex; flex-direction: column; height: 100vh;
             padding-top: env(safe-area-inset-top);
             padding-bottom: env(safe-area-inset-bottom);
             padding-left: env(safe-area-inset-left);
             padding-right: env(safe-area-inset-right);
         }
-
         .header {
-            background: rgba(255, 255, 255, 0.95);
-            padding: 12px 16px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            border-radius: 0 0 12px 12px;
+            background: rgba(255,255,255,0.97);
+            box-shadow: 0 4px 16px rgba(15, 23, 42, 0.15);
+            border-radius: 0 0 18px 18px;
+            padding: 12px 14px 8px;
         }
-
         .header h1 {
-            color: #667eea;
-            font-size: 20px;
-            margin-bottom: 10px;
-            text-align: center;
+            text-align: center; font-size: clamp(18px, 2vw, 24px);
+            color: #1d4ed8; margin-bottom: 10px;
         }
-
         .search-box {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 8px;
+            display: flex; gap: 8px; margin-bottom: 8px;
         }
-
         .search-box input {
-            flex: 1;
-            padding: 10px 12px;
-            border: 2px solid #667eea;
-            border-radius: 8px;
-            font-size: 14px;
-            background: white;
+            flex: 1; border: 2px solid #2563eb; border-radius: 10px;
+            padding: 10px 12px; font-size: 14px; background: white; color: #0f172a;
         }
-
         .search-box button {
-            padding: 10px 16px;
-            background: #667eea;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 14px;
-            transition: all 0.3s;
+            background: linear-gradient(135deg, #2563eb, #7c3aed);
+            color: white; border: none; border-radius: 10px; padding: 10px 14px;
+            font-weight: 700; cursor: pointer;
         }
-
-        .search-box button:active {
-            background: #5568d3;
-            transform: scale(0.98);
-        }
-
         .filter-section {
-            display: flex;
-            gap: 8px;
-            overflow-x: auto;
-            padding-bottom: 6px;
+            display: flex; gap: 8px; overflow-x: auto; white-space: nowrap;
+            padding-bottom: 4px;
         }
-
         .filter-btn {
-            padding: 8px 14px;
-            background: white;
-            border: 2px solid #667eea;
-            color: #667eea;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 13px;
-            font-weight: 600;
-            white-space: nowrap;
-            flex-shrink: 0;
-            transition: all 0.3s;
+            border: 1.5px solid #2563eb; background: white; color: #1d4ed8;
+            border-radius: 999px; padding: 7px 12px; font-size: 12px; font-weight: 700;
+            cursor: pointer; flex-shrink: 0;
         }
-
         .filter-btn.active {
-            background: #667eea;
-            color: white;
+            background: linear-gradient(135deg, #2563eb, #7c3aed); color: white;
         }
-
-        .filter-btn:active {
-            transform: scale(0.95);
-        }
-
         .content {
-            display: flex;
-            flex: 1;
-            gap: 12px;
-            min-height: 0;
-            padding: 12px;
+            display: flex; flex: 1; gap: 12px; min-height: 0; padding: 12px;
             overflow: hidden;
         }
-
         .main-area {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            min-width: 0;
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            flex: 1; min-width: 0; background: rgba(255,255,255,0.96);
+            border-radius: 16px; overflow: hidden; box-shadow: 0 8px 24px rgba(15,23,42,0.15);
+            display: flex; flex-direction: column;
         }
-
         .term-counter {
-            padding: 8px 12px;
-            background: #f0f4ff;
-            color: #667eea;
-            font-size: 12px;
-            font-weight: 600;
-            text-align: center;
-            border-bottom: 1px solid #e0e6ff;
+            padding: 8px 12px; background: #eef2ff; border-bottom: 1px solid #dfe7ff;
+            color: #1d4ed8; font-size: 12px; font-weight: 700; text-align: center;
         }
-
         .terms-list {
-            flex: 1;
-            overflow-y: auto;
-            padding: 12px;
-            overflow-x: hidden;
+            flex: 1; overflow-y: auto; padding: 12px;
         }
-
         .term-card {
-            background: linear-gradient(135deg, #f5f7ff 0%, #fafbff 100%);
-            border-left: 4px solid #667eea;
-            padding: 14px;
-            margin-bottom: 12px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s;
-            box-shadow: 0 2px 6px rgba(102, 126, 234, 0.1);
+            background: linear-gradient(135deg, #f8fafc 0%, #eef2ff 100%);
+            border-left: 4px solid #2563eb; border-radius: 8px; padding: 12px 12px 10px;
+            margin-bottom: 10px; box-shadow: 0 3px 10px rgba(37,99,235,0.08); cursor: pointer;
+            transition: transform 0.15s ease, box-shadow 0.2s ease;
         }
-
-        .term-card:active {
-            transform: translateX(4px);
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
-        }
-
+        .term-card:active { transform: translateX(2px); }
         .term-card.selected {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
+            background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%); color: white;
+            border-left: 4px solid #c4b5fd;
         }
-
         .term-title {
-            font-size: 16px;
-            font-weight: 700;
-            margin-bottom: 4px;
-            color: #333;
+            font-size: 15px; font-weight: 800; margin-bottom: 4px;
         }
-
-        .term-card.selected .term-title {
-            color: white;
-        }
-
+        .term-card.selected .term-title, .term-card.selected .term-pronunciation,
+        .term-card.selected .term-turkish { color: #fff; }
         .term-pronunciation {
-            font-size: 12px;
-            color: #999;
-            font-style: italic;
-            margin-bottom: 4px;
+            font-size: 11px; color: #64748b; font-style: italic; margin-bottom: 4px;
         }
-
-        .term-card.selected .term-pronunciation {
-            color: rgba(255, 255, 255, 0.8);
+        .term-turkish {
+            font-size: 12px; color: #334155; font-weight: 600;
         }
-
         .term-category {
-            display: inline-block;
-            font-size: 10px;
-            background: #e0e6ff;
-            color: #667eea;
-            padding: 3px 8px;
-            border-radius: 12px;
-            font-weight: 600;
+            display: inline-block; margin-top: 8px; padding: 4px 8px; border-radius: 999px;
+            background: rgba(37,99,235,0.12); color: #1d4ed8; font-weight: 700; font-size: 10px;
         }
-
         .term-card.selected .term-category {
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
+            background: rgba(255,255,255,0.18); color: white;
         }
-
         .detail-panel {
-            width: 320px;
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 12px;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            width: 340px; background: rgba(255,255,255,0.97); border-radius: 16px;
+            box-shadow: 0 8px 24px rgba(15,23,42,0.15); overflow: hidden; display: flex; flex-direction: column;
         }
-
         .detail-header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 16px;
-            border-bottom: 3px solid rgba(255, 255, 255, 0.2);
+            background: linear-gradient(135deg, #1d4ed8 0%, #7c3aed 100%); color: white;
+            padding: 14px 14px 12px; border-bottom: 2px solid rgba(255,255,255,0.2);
         }
-
+        .detail-title-row {
+            display: flex; align-items: center; justify-content: space-between; gap: 8px;
+        }
         .detail-title {
-            font-size: 22px;
-            font-weight: 700;
-            margin-bottom: 6px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            font-size: 22px; font-weight: 800;
         }
-
-        .speak-btn {
-            background: rgba(255, 255, 255, 0.3);
-            border: none;
-            color: white;
-            width: 36px;
-            height: 36px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 18px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s;
-            flex-shrink: 0;
+        .sound-btn {
+            border: none; background: rgba(255,255,255,0.2); color: white; border-radius: 10px;
+            width: 34px; height: 34px; font-size: 18px; cursor: pointer;
         }
-
-        .speak-btn:active {
-            background: rgba(255, 255, 255, 0.5);
-            transform: scale(0.95);
-        }
-
-        .speak-btn.speaking {
-            animation: pulse 1s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { background: rgba(255, 255, 255, 0.3); }
-            50% { background: rgba(255, 255, 255, 0.6); }
-        }
-
+        .sound-btn.speaking { animation: pulse 1s infinite; }
+        @keyframes pulse { 0%,100%{opacity:0.8;} 50%{opacity:1;} }
         .detail-pronunciation {
-            font-size: 13px;
-            opacity: 0.9;
-            font-style: italic;
-            margin-bottom: 8px;
+            margin-top: 6px; font-size: 12px; color: rgba(255,255,255,0.9); font-style: italic;
         }
-
-        .detail-category-badge {
-            display: inline-block;
-            background: rgba(255, 255, 255, 0.3);
-            color: white;
-            padding: 4px 10px;
-            border-radius: 12px;
-            font-size: 11px;
-            font-weight: 600;
+        .detail-category {
+            display: inline-block; margin-top: 8px; background: rgba(255,255,255,0.18);
+            padding: 4px 10px; border-radius: 999px; font-size: 10px; font-weight: 700;
         }
-
         .detail-content {
-            flex: 1;
-            overflow-y: auto;
-            padding: 16px;
+            padding: 14px; overflow-y: auto; flex: 1;
         }
-
         .detail-section {
-            margin-bottom: 16px;
+            margin-bottom: 14px;
         }
-
         .detail-section-title {
-            font-size: 12px;
-            color: #667eea;
-            font-weight: 700;
-            text-transform: uppercase;
-            margin-bottom: 8px;
-            letter-spacing: 0.5px;
+            font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em;
+            color: #2563eb; margin-bottom: 7px;
         }
-
-        .detail-section-content {
-            font-size: 14px;
-            color: #444;
-            line-height: 1.6;
-            background: #f9f9f9;
-            padding: 10px;
-            border-radius: 6px;
-            border-left: 3px solid #667eea;
+        .detail-box {
+            background: #f8fafc; border-left: 4px solid #2563eb; border-radius: 8px;
+            padding: 10px; line-height: 1.5; font-size: 14px; color: #1e293b;
         }
-
-        .notes-area {
-            background: #fffbf0;
-            border-top: 2px solid #ffd700;
-            padding: 12px;
-            border-radius: 6px;
-            margin-top: 12px;
+        .notes-box {
+            background: #fff8e8; border: 1px dashed #f59e0b; border-radius: 8px; padding: 10px;
         }
-
-        .notes-title {
-            font-size: 11px;
-            color: #d97706;
-            font-weight: 700;
-            text-transform: uppercase;
-            margin-bottom: 8px;
+        .notes-box textarea {
+            width: 100%; height: 90px; background: white; border: 1px solid #f5d48f; border-radius: 8px;
+            resize: none; padding: 8px; font-family: 'Courier New', monospace; font-size: 12px; color: #1f2937;
         }
-
-        .notes-textarea {
-            width: 100%;
-            height: 80px;
-            border: 2px dashed #ffd700;
-            border-radius: 6px;
-            padding: 8px;
-            font-family: 'Courier New', monospace;
-            font-size: 12px;
-            resize: none;
-            background: white;
-            color: #333;
-            -webkit-user-select: text;
-            user-select: text;
-        }
-
         .empty-state {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100%;
-            color: #999;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            height: 100%; color: #94a3b8; text-align: center; padding: 20px;
         }
-
-        .empty-state-icon {
-            font-size: 48px;
-            margin-bottom: 12px;
-            opacity: 0.5;
-        }
-
-        .empty-state-text {
-            font-size: 14px;
-            text-align: center;
-        }
-
+        .empty-state .icon { font-size: 42px; margin-bottom: 10px; }
         @media (max-width: 900px) {
-            .detail-panel {
-                width: 280px;
-            }
+            .detail-panel { width: 300px; }
         }
-
-        @media (max-width: 800px) {
-            .content {
-                flex-direction: column;
-            }
-
-            .detail-panel {
-                width: 100%;
-                height: 40vh;
-                max-height: 400px;
-            }
-
-            .main-area {
-                flex: 1;
-            }
+        @media (max-width: 760px) {
+            .content { display: block; }
+            .main-area { height: 52vh; }
+            .detail-panel { width: 100%; height: 38vh; margin-top: 12px; }
         }
-
-        .scrollbar-style::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        .scrollbar-style::-webkit-scrollbar-track {
-            background: transparent;
-        }
-
-        .scrollbar-style::-webkit-scrollbar-thumb {
-            background: #667eea;
-            border-radius: 3px;
-        }
-
-        .scrollbar-style::-webkit-scrollbar-thumb:hover {
-            background: #5568d3;
-        }
-
-        .terms-list {
-            scrollbar-color: #667eea transparent;
-            scrollbar-width: thin;
-        }
-
-        .detail-content {
-            scrollbar-color: #667eea transparent;
-            scrollbar-width: thin;
-        }
-
-        .stats {
-            display: flex;
-            gap: 8px;
-            font-size: 11px;
-            color: #999;
-            margin-top: 4px;
-        }
-
-        .stat-item {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-
-        @supports(padding: max(0px)) {
-            body {
-                padding-left: max(12px, env(safe-area-inset-left));
-                padding-right: max(12px, env(safe-area-inset-right));
-            }
+        .terms-list::-webkit-scrollbar, .detail-content::-webkit-scrollbar { width: 8px; }
+        .terms-list::-webkit-scrollbar-thumb, .detail-content::-webkit-scrollbar-thumb {
+            background: #8b5cf6; border-radius: 999px;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>📚 Tıbbi Radyoloji Terimler Sözlüğü</h1>
+            <h1>📚 Tıbbi Görüntüleme Terminolojisi</h1>
             <div class="search-box">
-                <input type="text" id="searchInput" placeholder="Terim arayın (Türkçe veya İngilizce)..." autocomplete="off">
-                <button onclick="clearSearch()">Temizle</button>
+                <input id="searchInput" type="text" placeholder="Terim ara (İngilizce / Türkçe / okunuş)..." autocomplete="off">
+                <button id="clearBtn" type="button">Temizle</button>
             </div>
-            <div class="filter-section" id="filterContainer">
-                <button class="filter-btn active" onclick="filterByCategory('tümü')">Tümü</button>
-            </div>
+            <div class="filter-section" id="filterContainer"></div>
         </div>
 
         <div class="content">
             <div class="main-area">
                 <div class="term-counter" id="termCounter">Yükleniyor...</div>
-                <div class="terms-list scrollbar-style" id="termsList">
-                    <div class="empty-state">
-                        <div class="empty-state-icon">📖</div>
-                        <div class="empty-state-text">Terimler yükleniyor...</div>
-                    </div>
-                </div>
+                <div class="terms-list" id="termsList"></div>
             </div>
 
             <div class="detail-panel">
                 <div class="detail-header">
-                    <div class="detail-title">
-                        <span id="detailTitle">Terim Seçin</span>
-                        <button class="speak-btn" id="speakBtn" onclick="speakTerm()" style="display: none;">🔊</button>
+                    <div class="detail-title-row">
+                        <div id="detailTitle" class="detail-title">Terim Seçin</div>
+                        <button id="soundBtn" class="sound-btn" type="button" style="display:none;">🔊</button>
                     </div>
-                    <div class="detail-pronunciation" id="detailPronunciation"></div>
-                    <div class="detail-category-badge" id="detailCategory"></div>
+                    <div id="detailPronunciation" class="detail-pronunciation"></div>
+                    <div id="detailCategory" class="detail-category"></div>
                 </div>
-                <div class="detail-content" id="detailContent">
+                <div id="detailContent" class="detail-content">
                     <div class="empty-state">
-                        <div class="empty-state-icon">👈</div>
-                        <div class="empty-state-text">Sözlükten bir terim seçin</div>
+                        <div class="icon">👈</div>
+                        <div>Bir terim seçerek detay görünümünü açabilirsiniz.</div>
                     </div>
                 </div>
             </div>
@@ -471,251 +202,370 @@
     </div>
 
     <script>
-        // Terim verileri - Tıbbi Görüntüleme Teknikleri ve Temel Anatomi
         const terms = [
-            // TÏBBÏ GÖRÜNTÜLEME TEKNİKLERİ
-            { id: 1, english: "X-ray", turkish: "X Işını / Röntgen", pronunciation: "EKS-ray", category: "Görüntüleme Teknikleri", definition: "Elektromanyetik radyasyonun kullanılarak vücudun iç yapısını görüntüleyen teknik.", notes: "" },
-            { id: 2, english: "Computed Tomography", turkish: "Bilgisayarlı Tomografi (CT)", pronunciation: "kom-PYOO-tid to-MOG-ra-fee", category: "Görüntüleme Teknikleri", definition: "Bilgisayarın yardımıyla kesitsel görüntüler oluşturan ileri radyoloji tekniği.", notes: "" },
-            { id: 3, english: "MRI", turkish: "Manyetik Rezonans Görüntüleme (MRI)", pronunciation: "EM-ar-eye", category: "Görüntüleme Teknikleri", definition: "Manyetik alan ve radyo dalgalarını kullanarak detaylı iç görüntüler oluşturan teknik.", notes: "" },
-            { id: 4, english: "Ultrasound", turkish: "Ultrason", pronunciation: "UL-tra-sound", category: "Görüntüleme Teknikleri", definition: "Ses dalgalarını kullanarak gerçek zamanlı görüntüleme yapan güvenli bir tekniktir.", notes: "" },
-            { id: 5, english: "PET Scan", turkish: "Pozitron Emisyon Tomografisi (PET)", pronunciation: "PET scann", category: "Görüntüleme Teknikleri", definition: "Radioaktif izotopları kullanan metabolik görüntüleme tekniği.", notes: "" },
-            { id: 6, english: "SPECT", turkish: "Tek Foton Emisyon Bilgisayarlı Tomografisi (SPECT)", pronunciation: "SPEKT", category: "Görüntüleme Teknikleri", definition: "Nükleer tıpta kullanılan 3D görüntüleme tekniği.", notes: "" },
-            { id: 7, english: "Fluoroscopy", turkish: "Floroskopi", pronunciation: "flu-ROS-ko-pee", category: "Görüntüleme Teknikleri", definition: "Gerçek zamanlı hareket gösteren X-ışını tekniği.", notes: "" },
-            { id: 8, english: "Digital Radiography", turkish: "Dijital Radyografi", pronunciation: "DIJ-i-tal ra-dee-OG-ra-fee", category: "Görüntüleme Teknikleri", definition: "Dijital sensörleri kullanan modern X-ışını tekniği.", notes: "" },
-            { id: 9, english: "Mammography", turkish: "Mamografi", pronunciation: "mam-OG-ra-fee", category: "Görüntüleme Teknikleri", definition: "Meme kanserini tespit etmek için özel X-ışını tekniği.", notes: "" },
-            { id: 10, english: "Angiography", turkish: "Anjiyografi", pronunciation: "an-jee-OG-ra-fee", category: "Görüntüleme Teknikleri", definition: "Damarları görüntülemek için kontrast madde kullanılan teknik.", notes: "" },
-            
-            // TEMEL ANATOMİ - KEMIKLER
-            { id: 11, english: "Skeleton", turkish: "İskelet", pronunciation: "SKEL-e-ton", category: "Temel Anatomi", definition: "Vücudun kemik yapısının tamamı.", notes: "" },
-            { id: 12, english: "Skull", turkish: "Kafatası", pronunciation: "skul", category: "Temel Anatomi", definition: "Beyni ve yüz yapılarını koruyan kemik yapı.", notes: "" },
-            { id: 13, english: "Vertebra", turkish: "Omur", pronunciation: "VER-te-bra", category: "Temel Anatomi", definition: "Omurga kemiklerinin her birinin adı.", notes: "" },
-            { id: 14, english: "Spine", turkish: "Omurga", pronunciation: "spyn", category: "Temel Anatomi", definition: "Omurların oluşturduğu vücudun ana kemik yapısı.", notes: "" },
-            { id: 15, english: "Ribs", turkish: "Kaburga", pronunciation: "ribz", category: "Temel Anatomi", definition: "Göğüs boşluğunu koruyan kemik yapılar.", notes: "" },
-            { id: 16, english: "Sternum", turkish: "Göğüs Kemiği", pronunciation: "STER-num", category: "Temel Anatomi", definition: "Göğsün ön ortasındaki kemik.", notes: "" },
-            { id: 17, english: "Pelvis", turkish: "Pelvis / Kalça", pronunciation: "PEL-vis", category: "Temel Anatomi", definition: "Alt karının kemik yapısı; iç organları koruyan hafza.", notes: "" },
-            { id: 18, english: "Femur", turkish: "Uyluk Kemiği", pronunciation: "FEE-mur", category: "Temel Anatomi", definition: "Vücudun en uzun ve güçlü kemiği.", notes: "" },
-            { id: 19, english: "Tibia", turkish: "Kaval Kemiği", pronunciation: "TIB-ee-uh", category: "Temel Anatomi", definition: "Bacağın iç kısmının ana kemiği.", notes: "" },
-            { id: 20, english: "Fibula", turkish: "Dış Bacak Kemiği", pronunciation: "FIB-yoo-luh", category: "Temel Anatomi", definition: "Bacağın dış kısmının ince kemiği.", notes: "" },
-            { id: 21, english: "Humerus", turkish: "Kol Kemiği", pronunciation: "HYOO-mer-us", category: "Temel Anatomi", definition: "Omuzdan dirseeğe kadar olan kol kemiği.", notes: "" },
-            { id: 22, english: "Radius", turkish: "Dış Ön Kol Kemiği", pronunciation: "RAY-dee-us", category: "Temel Anatomi", definition: "Ön kolun dış tarafındaki kemiği.", notes: "" },
-            { id: 23, english: "Ulna", turkish: "İç Ön Kol Kemiği", pronunciation: "UL-nuh", category: "Temel Anatomi", definition: "Ön kolun iç tarafındaki kemiği.", notes: "" },
-            { id: 24, english: "Carpals", turkish: "El Bilek Kemikleri", pronunciation: "KAR-palz", category: "Temel Anatomi", definition: "Bileğin küçük kemikleri.", notes: "" },
-            { id: 25, english: "Tarsals", turkish: "Ayak Bilek Kemikleri", pronunciation: "TAR-salz", category: "Temel Anatomi", definition: "Ayak bileğinin kemikleri.", notes: "" },
-            { id: 26, english: "Clavicle", turkish: "Köpek Kemiği", pronunciation: "KLAV-i-kul", category: "Temel Anatomi", definition: "Omuz ile göğüs kemiği arasındaki kemik.", notes: "" },
-            { id: 27, english: "Scapula", turkish: "Omuz Kemiği", pronunciation: "SKAP-yoo-luh", category: "Temel Anatomi", definition: "Arka omuzda bulunan geniş kemik.", notes: "" },
-            { id: 28, english: "Patella", turkish: "Diz Kapağı", pronunciation: "pa-TEL-uh", category: "Temel Anatomi", definition: "Diz ön tarafında koruyan sesamoid kemik.", notes: "" },
-            
-            // TEMEL ANATOMİ - ORGAN VE SİSTEMLER
-            { id: 29, english: "Heart", turkish: "Kalp", pronunciation: "hart", category: "Temel Anatomi", definition: "Vücut boyunca kan dolaştıran kas organı.", notes: "" },
-            { id: 30, english: "Lungs", turkish: "Akciğerler", pronunciation: "lungz", category: "Temel Anatomi", definition: "Nefes aldığımız ve oksijen alışverişi yapan organlar.", notes: "" },
-            { id: 31, english: "Brain", turkish: "Beyin", pronunciation: "brayn", category: "Temel Anatomi", definition: "Merkezi sinir sistemi kontrolünü sağlayan organ.", notes: "" },
-            { id: 32, english: "Liver", turkish: "Karaciğer", pronunciation: "LIV-er", category: "Temel Anatomi", definition: "Metabolizma ve detoksifikasyondan sorumlu en büyük iç organ.", notes: "" },
-            { id: 33, english: "Kidney", turkish: "Böbrek", pronunciation: "KID-nee", category: "Temel Anatomi", definition: "İdrar üretimi ve atık filtrelemesi yapan organ.", notes: "" },
-            { id: 34, english: "Stomach", turkish: "Mide", pronunciation: "STUM-ik", category: "Temel Anatomi", definition: "Besinleri çiğnendikten sonra iki saatlik haznesi.", notes: "" },
-            { id: 35, english: "Intestines", turkish: "Bağırsaklar", pronunciation: "in-TES-tinz", category: "Temel Anatomi", definition: "Besinleri sindirim yapan ve emilimini sağlayan kanallar.", notes: "" },
-            { id: 36, english: "Pancreas", turkish: "Pankreas", pronunciation: "PAN-kree-us", category: "Temel Anatomi", definition: "Insülin ve sindirim enzimlerini üreten bez.", notes: "" },
-            { id: 37, english: "Thyroid", turkish: "Tiroid Bezi", pronunciation: "THY-royd", category: "Temel Anatomi", definition: "Metabolizmayı kontrol eden hormon üreten bez.", notes: "" },
-            { id: 38, english: "Adrenal", turkish: "Adrenal Bez / Böbrek Üstü", pronunciation: "a-DRE-nal", category: "Temel Anatomi", definition: "Stres hormonlarını üreten böbrek üstündeki bez.", notes: "" },
-            
-            // TEMEL ANATOMİ - DAMARLAR VE SİNİRLER
-            { id: 39, english: "Artery", turkish: "Arter", pronunciation: "AR-ter-ee", category: "Temel Anatomi", definition: "Kalp tarafından pompalanan kanı taşıyan damarlı.", notes: "" },
-            { id: 40, english: "Vein", turkish: "Ven", pronunciation: "vayn", category: "Temel Anatomi", definition: "Kalbe geri dönen kanı taşıyan damarlı.", notes: "" },
-            { id: 41, english: "Capillary", turkish: "Kapiller", pronunciation: "KAP-i-ler-ee", category: "Temel Anatomi", definition: "Doku hücrelerine oksijen ve besin sağlayan en ince damarlar.", notes: "" },
-            { id: 42, english: "Nerve", turkish: "Sinir", pronunciation: "nerv", category: "Temel Anatomi", definition: "Beyin ve omurillik ile vücut arasında iletişim sağlayan yapılar.", notes: "" },
-            { id: 43, english: "Spinal Cord", turkish: "Omurillik", pronunciation: "SPY-nal kord", category: "Temel Anatomi", definition: "Beyinle vücut arasında sinyal iletişi sağlayan merkezi sinir.", notes: "" },
-            
-            // TEMEL ANATOMİ - SINIR SISTEMI
-            { id: 44, english: "Central Nervous System", turkish: "Merkezi Sinir Sistemi", pronunciation: "SEN-tral NER-vus SIS-tem", category: "Temel Anatomi", definition: "Beyin ve omuriliğin oluşturduğu kontrol sistemi.", notes: "" },
-            { id: 45, english: "Peripheral Nervous System", turkish: "Çevresel Sinir Sistemi", pronunciation: "pe-RIF-er-al NER-vus SIS-tem", category: "Temel Anatomi", definition: "Beyin ve omuriliğin dışındaki tüm sinirler.", notes: "" },
-            
-            // TEMEL ANATOMİ - KAS VE BAĞ DOKU
-            { id: 46, english: "Muscle", turkish: "Kas", pronunciation: "MUS-ul", category: "Temel Anatomi", definition: "Hareket sağlayan ve isıl üretim yapan doku.", notes: "" },
-            { id: 47, english: "Tendon", turkish: "Tendon", pronunciation: "TEN-dun", category: "Temel Anatomi", definition: "Kası kemiğe bağlayan sağlam bağ dokusu.", notes: "" },
-            { id: 48, english: "Ligament", turkish: "Bağ", pronunciation: "LIG-a-ment", category: "Temel Anatomi", definition: "Kemikleri birbirine bağlayan bağ dokusu.", notes: "" },
-            { id: 49, english: "Cartilage", turkish: "Kıkırdak", pronunciation: "KAR-til-ij", category: "Temel Anatomi", definition: "Huş ve kemiğin arasındaki yumuşak yapı.", notes: "" },
-            
-            // TEMEL ANATOMİ - BAŞKA YAPILARI
-            { id: 50, english: "Lymph Node", turkish: "Lenf Nodu", pronunciation: "lymf nod", category: "Temel Anatomi", definition: "Bağışıklık sisteminin parçası olan filtreleme organları.", notes: "" },
-            { id: 51, english: "Artery", turkish: "Arter", pronunciation: "AR-ter-ee", category: "Temel Anatomi", definition: "Kalp tarafından pompalanan kanı taşıyan damarlı.", notes: "" },
-            { id: 52, english: "Esophagus", turkish: "Yemek Borusu", pronunciation: "e-SOF-a-gus", category: "Temel Anatomi", definition: "Ağızdan midesine kadar gıdayı taşıyan boru.", notes: "" },
-            { id: 53, english: "Trachea", turkish: "Hava Borusu", pronunciation: "TRAY-kee-uh", category: "Temel Anatomi", definition: "Larinksten akciğerlere hava taşıyan boru.", notes: "" },
-            { id: 54, english: "Diaphragm", turkish: "Diyafragma", pronunciation: "DY-a-fram", category: "Temel Anatomi", definition: "Nefes alma hareketini kontrol eden kas.", notes: "" },
-            { id: 55, english: "Bladder", turkish: "Mesane", pronunciation: "BLAD-er", category: "Temel Anatomi", definition: "İdrarı depolayan organ.", notes: "" },
-            
-            // RADYOLOJI TERIMLERI
-            { id: 56, english: "Opacity", turkish: "Opasite", pronunciation: "o-PAS-i-tee", category: "Radyoloji", definition: "X-ışını görüntüsünde beyaz görünen alan.", notes: "" },
-            { id: 57, english: "Lucency", turkish: "Lüsensi", pronunciation: "LOO-sen-see", category: "Radyoloji", definition: "X-ışını görüntüsünde siyah görünen alan.", notes: "" },
-            { id: 58, english: "Artifact", turkish: "Artefakt", pronunciation: "AR-ti-fakt", category: "Radyoloji", definition: "Görüntü içerisindeki istenmeyen yapı.", notes: "" },
-            { id: 59, english: "Contrast", turkish: "Kontrast Ajan", pronunciation: "KON-trast", category: "Radyoloji", definition: "Organ ve damarları daha iyi görmek için verilen madde.", notes: "" },
-            { id: 60, english: "Attenuation", turkish: "Zayıflama", pronunciation: "at-en-yoo-AY-shun", category: "Radyoloji", definition: "Işının madde tarafından zayıflatılması.", notes: "" }
+            { english: "Anatomical position", turkish: "Anatomik pozisyon", pronunciation: "an-uh-TOM-ih-kul puh-ZISH-un", category: "Temel Anatomi", definition: "Vücut dik dururken, baş öne bakacak şekilde, kollar yanlarda, avuç içleri öne doğru olacak şekilde duran standart anatomi pozisyonu.", modality: "Anatomi" },
+            { english: "Superior", turkish: "Superior / Üst", pronunciation: "soo-PEER-ee-or", category: "Temel Anatomi", definition: "Baş tarafına daha yakın olan yön.", modality: "Anatomi" },
+            { english: "Inferior", turkish: "Inferior / Alt", pronunciation: "in-FEER-ee-or", category: "Temel Anatomi", definition: "Ayak tarafına daha yakın olan yön.", modality: "Anatomi" },
+            { english: "Anterior", turkish: "Anterior / Ön", pronunciation: "an-TEER-ee-or", category: "Temel Anatomi", definition: "Gövdenin ön tarafı.", modality: "Anatomi" },
+            { english: "Posterior", turkish: "Posterior / Arka", pronunciation: "pos-TEER-ee-or", category: "Temel Anatomi", definition: "Gövdenin arka tarafı.", modality: "Anatomi" },
+            { english: "Medial", turkish: "Medial / Orta hat", pronunciation: "MEE-dee-ul", category: "Temel Anatomi", definition: "Vücudun orta hattına yakın olan yön.", modality: "Anatomi" },
+            { english: "Lateral", turkish: "Lateral / Yan", pronunciation: "LAT-er-ul", category: "Temel Anatomi", definition: "Orta hattın yan tarafı.", modality: "Anatomi" },
+            { english: "Proximal", turkish: "Proksimal / Yakın", pronunciation: "PROK-sih-mul", category: "Temel Anatomi", definition: "Gövdeye daha yakın olan nokta.", modality: "Anatomi" },
+            { english: "Distal", turkish: "Distal / Uzak", pronunciation: "DIS-tul", category: "Temel Anatomi", definition: "Gövdeye daha uzak olan nokta.", modality: "Anatomi" },
+            { english: "Sagittal plane", turkish: "Sagittal düzlem", pronunciation: "SAJ-it-ul PLAYN", category: "Temel Anatomi", definition: "Vücudu sağ ve sol yarıya bölen düzlem.", modality: "Anatomi" },
+            { english: "Coronal plane", turkish: "Koronal düzlem", pronunciation: "ko-ROH-nul PLAYN", category: "Temel Anatomi", definition: "Vücudu ön ve arka bölümlere ayıran düzlem.", modality: "Anatomi" },
+            { english: "Axial plane", turkish: "Aksiyal düzlem", pronunciation: "AK-see-ul PLAYN", category: "Temel Anatomi", definition: "Vücudu üst-alt bölümüne bölen yatay düzlem.", modality: "Anatomi" },
+            { english: "Skull", turkish: "Kafatası", pronunciation: "skul", category: "Temel Anatomi", definition: "Beyni ve yüz kemiklerini koruyan iskelet yapısı.", modality: "Anatomi" },
+            { english: "Cranium", turkish: "Kranium", pronunciation: "KRAY-nee-um", category: "Temel Anatomi", definition: "Kafatasının beyin kısmı.", modality: "Anatomi" },
+            { english: "Mandible", turkish: "Alt çene", pronunciation: "MAN-di-bul", category: "Temel Anatomi", definition: "Alt çenenin kemik yapısı.", modality: "Anatomi" },
+            { english: "Clavicle", turkish: "Köprücük kemiği", pronunciation: "KLAV-i-kul", category: "Temel Anatomi", definition: "Omuzu göğüs kafesine bağlayan kemik.", modality: "Anatomi" },
+            { english: "Scapula", turkish: "Omuz kürek kemiği", pronunciation: "SKAP-yuh-luh", category: "Temel Anatomi", definition: "Arka omuzda bulunan geniş üçgen kemik.", modality: "Anatomi" },
+            { english: "Sternum", turkish: "Göğüs kemiği", pronunciation: "STER-num", category: "Temel Anatomi", definition: "Göğüs boşluğunun ön orta hattında yer alan kemik.", modality: "Anatomi" },
+            { english: "Rib", turkish: "Kaburga", pronunciation: "rib", category: "Temel Anatomi", definition: "Göğüs boşluğunu çevreleyen kemik yapı.", modality: "Anatomi" },
+            { english: "Vertebra", turkish: "Omur", pronunciation: "VER-tuh-bruh", category: "Temel Anatomi", definition: "Omurga sütununu oluşturan kemik.", modality: "Anatomi" },
+            { english: "Spine", turkish: "Omurga", pronunciation: "spine", category: "Temel Anatomi", definition: "Omurların oluşturduğu vücut ekseni.", modality: "Anatomi" },
+            { english: "Pelvis", turkish: "Kalça / Pelvis", pronunciation: "PEL-vis", category: "Temel Anatomi", definition: "Alt karın ve pelvis bölgesini oluşturan kemik yapı.", modality: "Anatomi" },
+            { english: "Femur", turkish: "Uyluk kemiği", pronunciation: "FEE-mur", category: "Temel Anatomi", definition: "Vücudun en uzun ve güçlü kemiği.", modality: "Anatomi" },
+            { english: "Patella", turkish: "Diz kapağı", pronunciation: "puh-TEL-uh", category: "Temel Anatomi", definition: "Dizin ön yüzünde yer alan küçük kemik.", modality: "Anatomi" },
+            { english: "Tibia", turkish: "Kaval kemiği", pronunciation: "TIB-ee-uh", category: "Temel Anatomi", definition: "Bacağın iç tarafındaki ana kemik.", modality: "Anatomi" },
+            { english: "Fibula", turkish: "Fibula / Dış bacak kemiği", pronunciation: "FIB-yuh-luh", category: "Temel Anatomi", definition: "Bacağın dış tarafında yer alan ince kemik.", modality: "Anatomi" },
+            { english: "Humerus", turkish: "Kol kemiği", pronunciation: "HYOO-mer-us", category: "Temel Anatomi", definition: "Omuzdan dirseğe kadar uzanan üst kol kemiği.", modality: "Anatomi" },
+            { english: "Radius", turkish: "Ön kol dış kemiği", pronunciation: "RAY-dee-us", category: "Temel Anatomi", definition: "Dirsekten bileğe uzanan ön kol kemiği.", modality: "Anatomi" },
+            { english: "Ulna", turkish: "Ön kol iç kemiği", pronunciation: "UL-nuh", category: "Temel Anatomi", definition: "Ön kolun iç tarafındaki kemik.", modality: "Anatomi" },
+            { english: "Carpal bones", turkish: "El bilek kemikleri", pronunciation: "KAR-pul BOHNZ", category: "Temel Anatomi", definition: "Bileğin küçük kemikleri.", modality: "Anatomi" },
+            { english: "Tarsal bones", turkish: "Ayak bilek kemikleri", pronunciation: "TAR-sul BOHNZ", category: "Temel Anatomi", definition: "Ayak bileğinde yer alan kemikler.", modality: "Anatomi" },
+            { english: "Joint", turkish: "Eklem", pronunciation: "joynt", category: "Temel Anatomi", definition: "İki kemik veya kemik grubu arasında hareketi sağlayan yapı.", modality: "Anatomi" },
+            { english: "Ligament", turkish: "Bağ", pronunciation: "LIG-uh-ment", category: "Temel Anatomi", definition: "Kemikleri bir arada tutan güçlü bağ dokusu.", modality: "Anatomi" },
+            { english: "Tendon", turkish: "Tendon", pronunciation: "TEN-dun", category: "Temel Anatomi", definition: "Kasları kemiğe bağlayan yapıya tendon denir.", modality: "Anatomi" },
+            { english: "Cartilage", turkish: "Kıkırdak", pronunciation: "KAR-ti-lij", category: "Temel Anatomi", definition: "Esnek ve yumuşak yapıya sahip bağ doku.", modality: "Anatomi" },
+            { english: "Muscle", turkish: "Kas", pronunciation: "MUS-ul", category: "Temel Anatomi", definition: "İskelete veya iç organlara hareket kazandıran doku.", modality: "Anatomi" },
+            { english: "Cardiac muscle", turkish: "Kalp kası", pronunciation: "KAR-dee-ak MUS-ul", category: "Temel Anatomi", definition: "Kalbin duvarını oluşturan kas türü.", modality: "Anatomi" },
+            { english: "Skeletal muscle", turkish: "İskelet kası", pronunciation: "SKEL-uh-tul MUS-ul", category: "Temel Anatomi", definition: "İskelete bağlı olarak hareketi sağlayan kas.", modality: "Anatomi" },
+            { english: "Smooth muscle", turkish: "Düz kas", pronunciation: "smooTH MUS-ul", category: "Temel Anatomi", definition: "İç organların duvarında bulunan kas türü.", modality: "Anatomi" },
+            { english: "Heart", turkish: "Kalp", pronunciation: "hart", category: "Temel Anatomi", definition: "Kanı vücuda pompalayan organ.", modality: "Anatomi" },
+            { english: "Lung", turkish: "Akciğer", pronunciation: "lung", category: "Temel Anatomi", definition: "Gaz değişiminin yapıldığı solunum organı.", modality: "Anatomi" },
+            { english: "Bronchi", turkish: "Bronşlar", pronunciation: "BRONK-eye", category: "Temel Anatomi", definition: "Trakeadan ayrılan hava yolunun dalları.", modality: "Anatomi" },
+            { english: "Trachea", turkish: "Trakea / Hava borusu", pronunciation: "TRAY-kee-uh", category: "Temel Anatomi", definition: "Ağızdan ya da burundan akciğerlere hava taşıyan boru.", modality: "Anatomi" },
+            { english: "Diaphragm", turkish: "Diyafram", pronunciation: "DYE-uh-fram", category: "Temel Anatomi", definition: "Solunum hareketini sağlayan kas.", modality: "Anatomi" },
+            { english: "Brain", turkish: "Beyin", pronunciation: "brayn", category: "Temel Anatomi", definition: "Merkezi sinir sistemi kontrolinin yapıldığı organ.", modality: "Anatomi" },
+            { english: "Cerebrum", turkish: "Beyin yarımküresi / serebrum", pronunciation: "suh-REE-brum", category: "Temel Anatomi", definition: "Beynin en büyük kısmı; düşünce ve motor işlevleri ile ilişkilidir.", modality: "Anatomi" },
+            { english: "Cerebellum", turkish: "Beyincik", pronunciation: "ser-uh-BEL-um", category: "Temel Anatomi", definition: "Koordinasyon ve denge işlevlerinden sorumlu yapı.", modality: "Anatomi" },
+            { english: "Spinal cord", turkish: "Omurilik", pronunciation: "SPY-nul kord", category: "Temel Anatomi", definition: "Beyin ile vücut arasında sinyal iletimini sağlayan yapı.", modality: "Anatomi" },
+            { english: "Nerve", turkish: "Sinir", pronunciation: "nerv", category: "Temel Anatomi", definition: "İletim hücreleri ve liflerinden oluşan sinyal taşıyıcı yapı.", modality: "Anatomi" },
+            { english: "Artery", turkish: "Arter", pronunciation: "AR-ter-ee", category: "Temel Anatomi", definition: "Kalpten giden kanı taşıyan damarlardır.", modality: "Anatomi" },
+            { english: "Vein", turkish: "Ven", pronunciation: "vayn", category: "Temel Anatomi", definition: "Kalbe kanı taşıyan damar.", modality: "Anatomi" },
+            { english: "Capillary", turkish: "Kapiller", pronunciation: "KAP-ih-lair-ee", category: "Temel Anatomi", definition: "Doku hücrelerine gaz ve besin alışverişi sağlayan küçük damar.", modality: "Anatomi" },
+            { english: "Liver", turkish: "Karaciğer", pronunciation: "LIV-er", category: "Temel Anatomi", definition: "Metabolizma, detoksifikasyon ve safra üretimi ile ilgili organ.", modality: "Anatomi" },
+            { english: "Gallbladder", turkish: "Safra kesesi", pronunciation: "GAWL-blad-er", category: "Temel Anatomi", definition: "Safra depolayan küçük kesecik.", modality: "Anatomi" },
+            { english: "Stomach", turkish: "Mide", pronunciation: "STUM-uk", category: "Temel Anatomi", definition: "Gıdaların depolanıp mekanik-mekanik olarak işlenmesi için kullanılan organ.", modality: "Anatomi" },
+            { english: "Small intestine", turkish: "Küçük bağırsak", pronunciation: "SMALL in-TES-tin", category: "Temel Anatomi", definition: "Besin emiliminin büyük kısmının olduğu bağırsak bölümü.", modality: "Anatomi" },
+            { english: "Large intestine", turkish: "Kalın bağırsak", pronunciation: "LARJ in-TES-tin", category: "Temel Anatomi", definition: "Su emilimi ve dışkı oluşumunun olduğu bağırsak bölümü.", modality: "Anatomi" },
+            { english: "Pancreas", turkish: "Pankreas", pronunciation: "PAN-kree-us", category: "Temel Anatomi", definition: "Sindirim enzimleri ve hormon üreten bez.", modality: "Anatomi" },
+            { english: "Spleen", turkish: "Dalak", pronunciation: "splen", category: "Temel Anatomi", definition: "Bağışıklık sistemi ve kan depolaması ile ilişkili organ.", modality: "Anatomi" },
+            { english: "Kidney", turkish: "Böbrek", pronunciation: "KID-nee", category: "Temel Anatomi", definition: "İdrar üretimi ve kan filtrasyonundan sorumlu organ.", modality: "Anatomi" },
+            { english: "Ureter", turkish: "Üreter", pronunciation: "YOO-ree-ter", category: "Temel Anatomi", definition: "Böbrekten mesaneye idrar taşıyan boru.", modality: "Anatomi" },
+            { english: "Bladder", turkish: "Mesane", pronunciation: "BLAD-er", category: "Temel Anatomi", definition: "İdrarın depolandığı boş organ.", modality: "Anatomi" },
+            { english: "Thyroid gland", turkish: "Tiroid bezi", pronunciation: "THY-royd gland", category: "Temel Anatomi", definition: "Metabolizmayı kontrol eden hormon üreten bez.", modality: "Anatomi" },
+            { english: "Adrenal gland", turkish: "Böbrek üstü bez", pronunciation: "uh-DREE-nul gland", category: "Temel Anatomi", definition: "Stres hormonları üreten bez.", modality: "Anatomi" },
+            { english: "Lymph node", turkish: "Lenf nodülü", pronunciation: "LIMF NOHD", category: "Temel Anatomi", definition: "Bağışıklık sistemi hücrelerinin toplandığı küçük yapılar.", modality: "Anatomi" },
+            { english: "X-ray", turkish: "X-ışını / Röntgen", pronunciation: "Eks-ray", category: "Radyoloji Teknikleri", definition: "Elektronların hedefe çarpmasıyla oluşan elektromanyetik radyasyon kullanılarak görüntü oluşturan yöntem.", modality: "Radyografi" },
+            { english: "Radiography", turkish: "Radyografi", pronunciation: "ray-dee-OG-rah-fee", category: "Radyoloji Teknikleri", definition: "Röntgen ışınlarıyla vücudun iç yapısını görüntüleme tekniği.", modality: "Radyografi" },
+            { english: "Computed tomography", turkish: "Bilgisayarlı tomografi", pronunciation: "kom-PYOO-tid tow-MOG-rah-fee", category: "Radyoloji Teknikleri", definition: "Bilgisayarlı rekonstrüksiyonla kesitsel görüntü üreten tomografi yöntemi.", modality: "BT" },
+            { english: "CT", turkish: "BT / Bilgisayarlı tomografi", pronunciation: "see-tee", category: "Radyoloji Teknikleri", definition: "Bilgisayarlı tomografinin kısaltması.", modality: "BT" },
+            { english: "MRI", turkish: "MR / Manyetik rezonans görüntüleme", pronunciation: "em-ar-eye", category: "Radyoloji Teknikleri", definition: "Manyetik alan ve radyo frekans dalgaları kullanılarak vücudun yumuşak dokularının görüntülenmesi.", modality: "MR" },
+            { english: "Ultrasound", turkish: "Ultrason", pronunciation: "UL-truh-sownd", category: "Radyoloji Teknikleri", definition: "Yüksek frekanslı ses dalgaları ile canlı görüntüleme tekniği.", modality: "US" },
+            { english: "PET", turkish: "PET / Pozitron emisyon tomografisi", pronunciation: "pet", category: "Radyoloji Teknikleri", definition: "Metabolik aktiviteyi gösteren nükleer görüntüleme tekniği.", modality: "Nükleer Tıp" },
+            { english: "SPECT", turkish: "SPECT / Tek foton emisyon tomografisi", pronunciation: "spekt", category: "Radyoloji Teknikleri", definition: "Fonksiyonel bilgi sağlamak için kullanılan nükleer görüntüleme yöntemi.", modality: "Nükleer Tıp" },
+            { english: "Fluoroscopy", turkish: "Floroskopi", pronunciation: "floo-ROS-kuh-pee", category: "Radyoloji Teknikleri", definition: "Gerçek zamanlı hareketli X-ışını görüntüleme tekniği.", modality: "Radyografi" },
+            { english: "Mammography", turkish: "Mamografi", pronunciation: "mam-OG-rah-fee", category: "Radyoloji Teknikleri", definition: "Meme dokusunun X-ışını ile değerlendirilmesi.", modality: "Mamografi" },
+            { english: "Angiography", turkish: "Anjiyografi", pronunciation: "an-jee-OG-rah-fee", category: "Radyoloji Teknikleri", definition: "Damarların kontrast madde ile görüntülenmesi.", modality: "Anjiyografi" },
+            { english: "Densitometry", turkish: "Densitometri", pronunciation: "den-sih-TOM-uh-tree", category: "Radyoloji Teknikleri", definition: "Kemik yoğunluğunun ölçülmesi için kullanılan yöntem.", modality: "Radyoloji" },
+            { english: "Contrast media", turkish: "Kontrast madde", pronunciation: "KON-trast MEE-dee-uh", category: "Radyoloji Teknikleri", definition: "Vücut yapılarının daha iyi görünmesi için kullanılan madde.", modality: "Kontrast" },
+            { english: "Artifact", turkish: "Artefakt", pronunciation: "AR-tuh-fakt", category: "Radyoloji Teknikleri", definition: "Görüntüde gerçek olmayan, yapay izin veren oluşum.", modality: "Tüm Modaliteler" },
+            { english: "Noise", turkish: "Gürültü", pronunciation: "noyz", category: "Radyoloji Teknikleri", definition: "Görüntüde istenmeyen rastgele değişkenlik.", modality: "Tüm Modaliteler" },
+            { english: "Resolution", turkish: "Çözünürlük", pronunciation: "rez-uh-LOO-shun", category: "Radyoloji Teknikleri", definition: "Bir görüntüde ayrılabilen detayların miktarı.", modality: "Tüm Modaliteler" },
+            { english: "Field of view", turkish: "Görüş alanı", pronunciation: "feeld uhv vyoo", category: "Radyoloji Teknikleri", definition: "Görüntüleyici cihazın görüntülediği alan.", modality: "Tüm Modaliteler" },
+            { english: "Voxel", turkish: "Voksel", pronunciation: "VOX-el", category: "Radyoloji Teknikleri", definition: "Üç boyutlu görüntüleme için kullanılan hacimsel piksel birimi.", modality: "BT / MR" },
+            { english: "Slice thickness", turkish: "Kesit kalınlığı", pronunciation: "slise THIK-nis", category: "Radyoloji Teknikleri", definition: "Tomografik kesitin kalınlık boyutudur.", modality: "BT / MR" },
+            { english: "Hounsfield unit", turkish: "Hounsfield birimi", pronunciation: "HOWNS-feeld YOO-nit", category: "Radyoloji Teknikleri", definition: "BT görüntülerindeki yoğunluk ölçüm birimi.", modality: "BT" },
+            { english: "T1-weighted", turkish: "T1 ağırlıklı", pronunciation: "tee-wuhn WAYT-id", category: "Radyoloji Teknikleri", definition: "T1 ağırlıklı manyetik rezonans görüntüleme serisi.", modality: "MR" },
+            { english: "T2-weighted", turkish: "T2 ağırlıklı", pronunciation: "tee-too WAYT-id", category: "Radyoloji Teknikleri", definition: "T2 ağırlıklı manyetik rezonans görüntüleme serisi.", modality: "MR" },
+            { english: "FLAIR", turkish: "FLAIR", pronunciation: "flair", category: "Radyoloji Teknikleri", definition: "Sıvı baskılanmış manyetik rezonans görüntüleme sekansı.", modality: "MR" },
+            { english: "Diffusion weighted imaging", turkish: "Difüzyon ağırlıklı görüntüleme", pronunciation: "dih-FYOO-zhun WAYT-id IM-uh-jing", category: "Radyoloji Teknikleri", definition: "Moleküler hareketi gösteren MR görüntüleme yöntemi.", modality: "MR" },
+            { english: "DWI", turkish: "DWI", pronunciation: "dee-double-you-eye", category: "Radyoloji Teknikleri", definition: "Difüzyon ağırlıklı görüntülemenin kısaltması.", modality: "MR" },
+            { english: "ADC", turkish: "ADC", pronunciation: "A-D-C", category: "Radyoloji Teknikleri", definition: "Difüzyon katsayısı görüntüleme parametresi.", modality: "MR" },
+            { english: "Echogenicity", turkish: "Ekojenite", pronunciation: "ek-oh-juh-NIS-i-tee", category: "Radyoloji Teknikleri", definition: "Ultrason görüntüsünde dokunun ses yansıtma özelliği.", modality: "US" },
+            { english: "Hyperechoic", turkish: "Hiperekoik", pronunciation: "hi-per-uh-KOH-ik", category: "Radyoloji Teknikleri", definition: "Ultrason görüntüsünde daha parlak görünen doku.", modality: "US" },
+            { english: "Hypoechoic", turkish: "Hipoekoik", pronunciation: "hye-poh-uh-KOH-ik", category: "Radyoloji Teknikleri", definition: "Ultrason görüntüsünde daha koyu görünen doku.", modality: "US" },
+            { english: "Anechoic", turkish: "Anekoik", pronunciation: "an-uh-KOH-ik", category: "Radyoloji Teknikleri", definition: "Ultrason görüntüsünde siyah görünüm gösteren sıvı içeren alan.", modality: "US" },
+            { english: "Doppler", turkish: "Doppler", pronunciation: "DOP-ler", category: "Radyoloji Teknikleri", definition: "Kan akımının değerlendirilmesinde kullanılan ultrason tekniği.", modality: "US" },
+            { english: "Gain", turkish: "Gain / Kazanç", pronunciation: "gayn", category: "Radyoloji Teknikleri", definition: "Ultrason sinyal gücünü artıran ayar.", modality: "US" },
+            { english: "Depth", turkish: "Derinlik", pronunciation: "depth", category: "Radyoloji Teknikleri", definition: "Ultrason görüntüleme sırasında incelenen mesafe derinliği.", modality: "US" },
+            { english: "Acoustic shadowing", turkish: "Akustik gölgeleme", pronunciation: "uh-KOO-stik SHAD-oh-ing", category: "Radyoloji Teknikleri", definition: "Ses dalgalarının yoğun doku tarafından engellenmesi sonucu oluşan koyu alan.", modality: "US" },
+            { english: "Attenuation", turkish: "Zayıflama", pronunciation: "uh-TEN-yoo-AY-shun", category: "Radyoloji Teknikleri", definition: "Işının veya ses dalgasının madde içinde zayıflaması.", modality: "Radyoloji" },
+            { english: "Absorption", turkish: "Emilim", pronunciation: "ub-SORP-shun", category: "Radyoloji Teknikleri", definition: "Enerjinin dokular tarafından emilmesi.", modality: "Radyoloji" },
+            { english: "Scattering", turkish: "Saçılma", pronunciation: "SKAT-er-ing", category: "Radyoloji Teknikleri", definition: "Işın veya ses dalgasının yön değiştirmesidir.", modality: "Radyoloji" },
+            { english: "Radiation protection", turkish: "Radyasyon korunması", pronunciation: "RAY-dee-AY-shun pro-TEK-shun", category: "Radyasyon Güvenliği", definition: "Maruziyetin en düşük düzeyde tutulması için alınan önlemler.", modality: "Radyasyon Güvenliği" },
+            { english: "ALARA", turkish: "ALARA", pronunciation: "uh-LAH-rah", category: "Radyasyon Güvenliği", definition: "As Low As Reasonably Achievable / Mümkün olduğunca düşük.", modality: "Radyasyon Güvenliği" },
+            { english: "Dosimeter", turkish: "Dozimetre", pronunciation: "doh-SIM-uh-ter", category: "Radyasyon Güvenliği", definition: "Kişinin aldığı radyasyon dozunu ölçen cihaz.", modality: "Radyasyon Güvenliği" },
+            { english: "Lead apron", turkish: "Kurşun önlük", pronunciation: "leed AP-urn", category: "Radyasyon Güvenliği", definition: "Personelin radyasyon maruziyetini azaltmak için giyilen koruyucu önlük.", modality: "Radyasyon Güvenliği" },
+            { english: "Shielding", turkish: "Koruma / kalkanlama", pronunciation: "SHEEL-ding", category: "Radyasyon Güvenliği", definition: "Radyasyonun hedef dışı alanlara ulaşmasını azaltma yöntemi.", modality: "Radyasyon Güvenliği" },
+            { english: "Scatter radiation", turkish: "Saçılan radyasyon", pronunciation: "SKAT-er RAY-dee-AY-shun", category: "Radyasyon Güvenliği", definition: "Arz edilen hedef dışı yöne saçılan radyasyon.", modality: "Radyasyon Güvenliği" },
+            { english: "Fracture", turkish: "Kırık", pronunciation: "FRAK-chur", category: "Patoloji", definition: "Kemik yapısının sürekliliğinin bozulması.", modality: "Radyografi" },
+            { english: "Dislocation", turkish: "Çıkık", pronunciation: "dis-loh-KAY-shun", category: "Patoloji", definition: "Eklem yüzeylerinin normal yerlerinden çıkması.", modality: "Radyografi" },
+            { english: "Pneumonia", turkish: "Pnömoni", pronunciation: "noo-MOH-nee-uh", category: "Patoloji", definition: "Akciğer dokusunda enfeksiyon kaynaklı inflamasyon.", modality: "Radyografi / BT" },
+            { english: "Pleural effusion", turkish: "Plevral efüzyon", pronunciation: "PLOOR-ul eh-FYOO-zhun", category: "Patoloji", definition: "Plevra boşluğunda sıvı birikmesi.", modality: "Radyografi / BT" },
+            { english: "Nodule", turkish: "Nodül", pronunciation: "NOD-yool", category: "Patoloji", definition: "Doku içinde yuvarlak, içi dolu küçük lezyon.", modality: "Radyografi / BT / MR" },
+            { english: "Mass", turkish: "Kitle", pronunciation: "mas", category: "Patoloji", definition: "Normal doku sınırlarından ayrılan büyüklü kütle.", modality: "Radyografi / BT / MR" },
+            { english: "Cyst", turkish: "Kist", pronunciation: "sist", category: "Patoloji", definition: "Duvarı olan, içi sıvı dolu boşluk.", modality: "Ultrason / BT / MR" },
+            { english: "Edema", turkish: "Ödem", pronunciation: "eh-DEE-muh", category: "Patoloji", definition: "Dokularda sıvı birikmesi.", modality: "Radyoloji" },
+            { english: "Infarction", turkish: "İnfarkt", pronunciation: "in-FARK-shun", category: "Patoloji", definition: "Kan akımının kesilmesi sonucu dokunun ölümü.", modality: "Radyoloji / Nükleer Tıp" },
+            { english: "Hematoma", turkish: "Hematom", pronunciation: "hee-muh-TOH-muh", category: "Patoloji", definition: "Doku içinde kan birikmesi.", modality: "Radyografi / BT / US" },
+            { english: "Tumor", turkish: "Tümör", pronunciation: "TOO-mer", category: "Patoloji", definition: "Kontrolsüz doku çoğalması.", modality: "Radyoloji" },
+            { english: "Malignancy", turkish: "Malignite", pronunciation: "muh-LIG-nuhn-see", category: "Patoloji", definition: "Kanser hücrelerinin bulunduğu, ilerleyici hastalık.", modality: "Radyoloji" },
+            { english: "Metastasis", turkish: "Metastaz", pronunciation: "muh-TAS-tuh-sis", category: "Patoloji", definition: "Hastalık hücrelerinin ana dokudan başka organa yayılması.", modality: "Radyoloji" },
+            { english: "Inflammation", turkish: "İnflamasyon", pronunciation: "in-fluh-MAY-shun", category: "Patoloji", definition: "Doku hasarı sonrası oluşan iltihaplanma reaksiyonu.", modality: "Radyoloji" },
+            { english: "Osteoarthritis", turkish: "Osteoartrit", pronunciation: "OS-tee-oh-ar-THRITE-is", category: "Patoloji", definition: "Eklem kıkırdağının yıpranması ile oluşan hastalık.", modality: "Radyografi" },
+            { english: "Osteoporosis", turkish: "Osteoporoz", pronunciation: "OS-tee-oh-por-OH-sis", category: "Patoloji", definition: "Kemik yoğunluğunun azalması ile karakterize hastalık.", modality: "Densitometri / Radyografi" },
+            { english: "Aneurysm", turkish: "Anevrizma", pronunciation: "AN-yuh-rizm", category: "Patoloji", definition: "Damarda genişleme veya balonlaşma.", modality: "Anjiyografi / BT" },
+            { english: "Stenosis", turkish: "Stenoz", pronunciation: "stuh-NOH-sis", category: "Patoloji", definition: "Bir kanal ya da damar çapının daralması.", modality: "Anjiyografi / CT / MR" },
+            { english: "Occlusion", turkish: "Oklüzyon / tıkanma", pronunciation: "uh-KLOO-zhun", category: "Patoloji", definition: "Damar ya da kanalda tam veya kısmi tıkanma.", modality: "Anjiyografi / BT" },
+            { english: "Cervical", turkish: "Servikal", pronunciation: "SER-vih-kul", category: "Radyolojik Anatomi", definition: "Boyun bölgesiyle ilgili.", modality: "Radyografi / BT / MR" },
+            { english: "Thoracic", turkish: "Torasik", pronunciation: "thuh-RAS-ik", category: "Radyolojik Anatomi", definition: "Göğüs bölgesiyle ilgili.", modality: "Radyografi / BT / MR" },
+            { english: "Lumbar", turkish: "Lomber", pronunciation: "LUM-bar", category: "Radyolojik Anatomi", definition: "Bel bölgesiyle ilgili.", modality: "Radyografi / BT / MR" },
+            { english: "Abdomen", turkish: "Karın", pronunciation: "AB-duh-men", category: "Radyolojik Anatomi", definition: "Karın boşluğu ve iç organları içeren alan.", modality: "Radyografi / BT / US" },
+            { english: "Thorax", turkish: "Toraks", pronunciation: "THOR-aks", category: "Radyolojik Anatomi", definition: "Göğüs boşluğu ve içerdiği yapılar.", modality: "Radyografi / BT" },
+            { english: "Pelvis", turkish: "Pelvis / Kalça", pronunciation: "PEL-vis", category: "Radyolojik Anatomi", definition: "Bağırsaklar, mesane ve üreme organlarının bulunduğu kasık bölgesi.", modality: "Radyografi / BT / MR" },
+            { english: "Shoulder", turkish: "Omuz", pronunciation: "SHOHL-der", category: "Radyolojik Anatomi", definition: "Kolun gövdeye bağlandığı üst ekstremite bölgesi.", modality: "Radyografi / US / MR" },
+            { english: "Elbow", turkish: "Dirsek", pronunciation: "EL-boh", category: "Radyolojik Anatomi", definition: "Üst kol ve ön kolun birleştiği eklem.", modality: "Radyografi / US / MR" },
+            { english: "Knee", turkish: "Diz", pronunciation: "nee", category: "Radyolojik Anatomi", definition: "Bacak ve uyluğun buluştuğu eklem.", modality: "Radyografi / MRI / US" },
+            { english: "Ankle", turkish: "Ayak bileği", pronunciation: "ANK-ul", category: "Radyolojik Anatomi", definition: "Bacak ile ayak arasındaki eklem.", modality: "Radyografi / US / MR" },
+            { english: "Frontal sinus", turkish: "Frontal sinüs", pronunciation: "FRUN-tul SYE-nus", category: "Radyolojik Anatomi", definition: "Alın bölgesinde yer alan hava boşluğu.", modality: "Radyografi / BT" },
+            { english: "Maxillary sinus", turkish: "Maksiller sinüs", pronunciation: "MAK-sil-air-ee SYE-nus", category: "Radyolojik Anatomi", definition: "Yüz kemiklerinde yer alan sinus boşluğu.", modality: "Radyografi / BT" },
+            { english: "Lobe", turkish: "Lob", pronunciation: "lohb", category: "Radyolojik Anatomi", definition: "Bir organın anatomik bölümü.", modality: "BT / MR" },
+            { english: "Hilum", turkish: "Hilum", pronunciation: "HYE-lum", category: "Radyolojik Anatomi", definition: "Organların damar ve yapı giriş çıkış alanı.", modality: "BT / MR" },
+            { english: "Parenchyma", turkish: "Parankim", pronunciation: "puh-RENG-kih-muh", category: "Radyolojik Anatomi", definition: "Organın fonksiyonel doku kısmı.", modality: "BT / MR / US" },
+            { english: "Peritoneum", turkish: "Periton", pronunciation: "pair-i-tuh-NEE-um", category: "Radyolojik Anatomi", definition: "Karın boşluğunu kaplayan zar.", modality: "BT / US" },
+            { english: "Mediastinum", turkish: "Mediastinum", pronunciation: "mee-dee-uh-STY-num", category: "Radyolojik Anatomi", definition: "Göğüs boşluğunun orta kısmındaki alan.", modality: "BT / Radyografi" },
+            { english: "Apex", turkish: "Apeks", pronunciation: "AY-peks", category: "Radyolojik Anatomi", definition: "Bir organın üst veya zirve kısmı.", modality: "Radyografi / BT / MR" },
+            { english: "Base", turkish: "Baz", pronunciation: "bays", category: "Radyolojik Anatomi", definition: "Organın alt ya da taban kısmı.", modality: "Radyografi / BT / MR" },
+            { english: "Subcutaneous", turkish: "Derialtı", pronunciation: "sub-kyoo-TAY-nee-us", category: "Tıbbi Terminoloji", definition: "Cilt altında yer alan doku.", modality: "Anatomi" },
+            { english: "Intravenous", turkish: "İntravenöz", pronunciation: "in-truh-VEE-nus", category: "Tıbbi Terminoloji", definition: "Damar içine verilen ve damar içi yoldan uygulanan.", modality: "Kontrast / ilaç" },
+            { english: "Oral", turkish: "Ağız yoluyla", pronunciation: "OR-ul", category: "Tıbbi Terminoloji", definition: "Ağızdan alınan ya da uygulanan.", modality: "İlaç / Kontrast" },
+            { english: "Bilateral", turkish: "Bilateral / Çift taraflı", pronunciation: "bye-LAT-er-ul", category: "Tıbbi Terminoloji", definition: "Her iki tarafı ilgilendiren durum.", modality: "Anatomi / Klinik" },
+            { english: "Unilateral", turkish: "Unilateral / Tek taraflı", pronunciation: "yoo-nih-LAT-er-ul", category: "Tıbbi Terminoloji", definition: "Tek tarafı ilgilendiren durum.", modality: "Klinik" },
+            { english: "Acute", turkish: "Akut", pronunciation: "uh-KYOOT", category: "Tıbbi Terminoloji", definition: "Ani başlayan, kısa süreli ve şiddetli durum.", modality: "Klinik" },
+            { english: "Chronic", turkish: "Kronik", pronunciation: "KRON-ik", category: "Tıbbi Terminoloji", definition: "Uzun süreli ve yavaş ilerleyen durum.", modality: "Klinik" },
+            { english: "Benign", turkish: "İyi huylu", pronunciation: "bih-NINE", category: "Tıbbi Terminoloji", definition: "Zarar verici olmayan, büyümesi sınırlı olan durum.", modality: "Patoloji" },
+            { english: "Malignant", turkish: "Kötü huylu", pronunciation: "muh-LIG-nunt", category: "Tıbbi Terminoloji", definition: "İlerleyici ve yayılma eğilimi olan durum.", modality: "Patoloji" },
+            { english: "Symptom", turkish: "Belirti", pronunciation: "SIMP-tum", category: "Tıbbi Terminoloji", definition: "Hasta tarafından hissedilen veya tanımlanan durum.", modality: "Klinik" },
+            { english: "Sign", turkish: "Bulgu", pronunciation: "sine", category: "Tıbbi Terminoloji", definition: "Muayene veya tetkik ile saptanan durum.", modality: "Klinik" },
+            { english: "Diagnosis", turkish: "Tanı", pronunciation: "dye-uhg-NOH-sis", category: "Tıbbi Terminoloji", definition: "Hastalığın tanımlanması.", modality: "Klinik" },
+            { english: "Prognosis", turkish: "Prognoz", pronunciation: "prog-NOH-sis", category: "Tıbbi Terminoloji", definition: "Hastalığın seyri ve iyileşme ihtimali hakkında öngörü.", modality: "Klinik" },
+            { english: "Pathology", turkish: "Patoloji", pronunciation: "puh-THOL-uh-jee", category: "Tıbbi Terminoloji", definition: "Hastalıkların nedenleri, süreçleri ve etkilerini inceleyen bilim dalı.", modality: "Patoloji" },
+            { english: "Etiology", turkish: "Etiyoloji", pronunciation: "ee-tee-OL-uh-jee", category: "Tıbbi Terminoloji", definition: "Hastalık nedeninin araştırılması.", modality: "Klinik" },
+            { english: "Morphology", turkish: "Morfoloji", pronunciation: "mor-FOL-uh-jee", category: "Tıbbi Terminoloji", definition: "Yapı ve biçim incelenmesi.", modality: "Patoloji / Anatomi" },
+            { english: "Anatomy", turkish: "Anatomi", pronunciation: "uh-NAT-uh-mee", category: "Tıbbi Terminoloji", definition: "Vücudun yapılarının incelenmesi.", modality: "Anatomi" },
+            { english: "Physiology", turkish: "Fizyoloji", pronunciation: "fiz-ee-OL-uh-jee", category: "Tıbbi Terminoloji", definition: "Canlıların fonksiyonlarının incelenmesi.", modality: "Fizyoloji" },
+            { english: "Radiology", turkish: "Radyoloji", pronunciation: "ray-dee-OL-uh-jee", category: "Tıbbi Terminoloji", definition: "Radyasyon kullanılarak vücut içi yapıları ve hastalıkları inceleyen tıp dalı.", modality: "Radyoloji" },
+            { english: "Technique", turkish: "Teknik", pronunciation: "tek-NEEK", category: "Tıbbi Terminoloji", definition: "Görüntüleme için kullanılan yöntem ve uygulama biçimi.", modality: "Radyoloji" },
+            { english: "Protocol", turkish: "Protokol", pronunciation: "PROH-tuh-kol", category: "Tıbbi Terminoloji", definition: "Bir görüntüleme için belirlenen standart uygulama düzeni.", modality: "Radyoloji" },
+            { english: "Positioning", turkish: "Pozisyonlama", pronunciation: "puh-ZISH-un-ing", category: "Tıbbi Terminoloji", definition: "Hasta ya da vücut bölgesinin uygun açı ve konumda tutulması.", modality: "Radyografi" },
+            { english: "Projection", turkish: "Projeksiyon", pronunciation: "proh-JEK-shun", category: "Tıbbi Terminoloji", definition: "Işın yoluna göre görüntü elde etme yönü.", modality: "Radyografi" },
+            { english: "AP view", turkish: "AP görünümü", pronunciation: "A-P vyoo", category: "Radyoloji Teknikleri", definition: "Anterior-posterior yönünde alınan radyografi görünümü.", modality: "Radyografi" },
+            { english: "Lateral view", turkish: "Lateral görünüm", pronunciation: "LAT-er-ul vyoo", category: "Radyoloji Teknikleri", definition: "Yandan alınan görüntüleme görünümü.", modality: "Radyografi" },
+            { english: "Oblique view", turkish: "Oblik görünüm", pronunciation: "oh-BLEEK vyoo", category: "Radyoloji Teknikleri", definition: "Normal eksenlere göre eğik alınan görüntü.", modality: "Radyografi" },
+            { english: "Collimation", turkish: "Kolimasyon", pronunciation: "kol-ih-MAY-shun", category: "Radyoloji Teknikleri", definition: "Radyasyon alanını daraltarak görüntüleme alanını sınırlama işlemi.", modality: "Radyografi" },
+            { english: "Grid", turkish: "Grid / Izgara", pronunciation: "grid", category: "Radyoloji Teknikleri", definition: "Saçılan radyasyonun azaltılmasında kullanılan ızgara yapısı.", modality: "Radyografi" },
+            { english: "Exposure", turkish: "Maruziyet / ekspoziyon", pronunciation: "ik-SPOH-zhur", category: "Radyoloji Teknikleri", definition: "Cihazın radyasyona maruz bırakma düzeyi.", modality: "Radyografi" },
+            { english: "kVp", turkish: "kVp", pronunciation: "kay-vee-pee", category: "Radyoloji Teknikleri", definition: "Röntgen tüpündeki voltajın belirlenmesini sağlayan değer.", modality: "Radyografi" },
+            { english: "mAs", turkish: "mAs", pronunciation: "em-ay-ess", category: "Radyoloji Teknikleri", definition: "X-ışını akım süresi ve doz ilişkisini gösteren parametre.", modality: "Radyografi" },
+            { english: "SID", turkish: "SID", pronunciation: "ess-eye-dee", category: "Radyoloji Teknikleri", definition: "Kaynak-görüntüleme mesafesi.", modality: "Radyografi" },
+            { english: "OID", turkish: "OID", pronunciation: "oh-eye-dee", category: "Radyoloji Teknikleri", definition: "Obje-görüntüleme mesafesi.", modality: "Radyografi" },
+            { english: "Windowing", turkish: "Pencereleme", pronunciation: "WIN-doh-ing", category: "Radyoloji Teknikleri", definition: "BT ve MR görüntülerinde gri ton aralığının ayarlanması.", modality: "BT / MR" },
+            { english: "Reconstruction", turkish: "Rekonstrüksiyon", pronunciation: "ree-kon-STRUK-shun", category: "Radyoloji Teknikleri", definition: "Kesitsel veriden 3D veya farklı görüntü formuna dönüştürme işlemi.", modality: "BT / MR" },
+            { english: "Gantry", turkish: "Gantry / Cihaz kolu", pronunciation: "GAN-tree", category: "Radyoloji Teknikleri", definition: "BT cihazında halka şeklindeki aparat yapısı.", modality: "BT" },
+            { english: "Pitch", turkish: "Pitch / Kılavuz oranı", pronunciation: "pitch", category: "Radyoloji Teknikleri", definition: "BT tarama sırasında masanın ilerleme mesafesi ile kesit genişliği oranı.", modality: "BT" },
+            { english: "Matrix", turkish: "Matris", pronunciation: "MAY-triks", category: "Radyoloji Teknikleri", definition: "Görüntünün düzenlendiği piksel veya hücre dizisi.", modality: "BT / MR / Radyografi" }
         ];
 
-        let allTerms = [...terms];
+        const allTerms = [...terms];
         let filteredTerms = [...allTerms];
+        let selectedCategory = 'Tümü';
         let selectedTerm = null;
-        let selectedCategory = 'tümü';
 
         function initializeFilters() {
-            const categories = ['tümü', ...new Set(allTerms.map(t => t.category))].sort();
+            const categories = ['Tümü', ...new Set(allTerms.map(term => term.category))];
             const filterContainer = document.getElementById('filterContainer');
             filterContainer.innerHTML = '';
-            
-            categories.forEach(cat => {
-                const btn = document.createElement('button');
-                btn.className = 'filter-btn' + (cat === 'tümü' ? ' active' : '');
-                btn.textContent = cat === 'tümü' ? 'Tümü' : cat;
-                btn.onclick = () => filterByCategory(cat);
-                filterContainer.appendChild(btn);
+            categories.forEach((cat) => {
+                const button = document.createElement('button');
+                button.type = 'button';
+                button.className = 'filter-btn' + (cat === 'Tümü' ? ' active' : '');
+                button.textContent = cat;
+                button.onclick = () => filterByCategory(cat);
+                filterContainer.appendChild(button);
             });
         }
 
         function filterByCategory(category) {
             selectedCategory = category;
             document.querySelectorAll('.filter-btn').forEach(btn => {
-                btn.classList.remove('active');
-                if ((category === 'tümü' && btn.textContent === 'Tümü') || btn.textContent === category) {
-                    btn.classList.add('active');
-                }
+                btn.classList.toggle('active', btn.textContent === category);
             });
-
-            filteredTerms = category === 'tümü' 
-                ? [...allTerms] 
-                : allTerms.filter(t => t.category === category);
-            
             applySearch();
         }
 
         function applySearch() {
-            const searchText = document.getElementById('searchInput').value.toLowerCase();
-            
-            filteredTerms = (selectedCategory === 'tümü' ? [...allTerms] : allTerms.filter(t => t.category === selectedCategory))
-                .filter(t => 
-                    t.english.toLowerCase().includes(searchText) ||
-                    t.turkish.toLowerCase().includes(searchText) ||
-                    t.pronunciation.toLowerCase().includes(searchText) ||
-                    t.definition.toLowerCase().includes(searchText)
-                );
+            const q = document.getElementById('searchInput').value.trim().toLowerCase();
+            const source = selectedCategory === 'Tümü' ? allTerms : allTerms.filter(term => term.category === selectedCategory);
 
+            filteredTerms = source.filter(term => {
+                const haystack = [
+                    term.english,
+                    term.turkish,
+                    term.pronunciation,
+                    term.definition,
+                    term.modality,
+                    term.category
+                ].join(' ').toLowerCase();
+                return haystack.includes(q);
+            });
             renderTermsList();
-            updateTermCounter();
+            updateCounter();
+            if (!filteredTerms.length) {
+                selectedTerm = null;
+                renderDetailEmpty();
+            } else if (!selectedTerm || !filteredTerms.find(t => t.english === selectedTerm.english)) {
+                selectedTerm = filteredTerms[0];
+                renderDetailPanel();
+            }
         }
 
         function renderTermsList() {
-            const termsList = document.getElementById('termsList');
-            
-            if (filteredTerms.length === 0) {
-                termsList.innerHTML = `
+            const list = document.getElementById('termsList');
+            if (!filteredTerms.length) {
+                list.innerHTML = `
                     <div class="empty-state">
-                        <div class="empty-state-icon">🔍</div>
-                        <div class="empty-state-text">Sonuç bulunamadı</div>
+                        <div class="icon">🔎</div>
+                        <div>Aramanızla eşleşen terim bulunamadı.</div>
                     </div>
                 `;
                 return;
             }
-
-            termsList.innerHTML = filteredTerms.map(term => `
-                <div class="term-card ${selectedTerm?.id === term.id ? 'selected' : ''}" onclick="selectTerm(${term.id})">
+            list.innerHTML = filteredTerms.map(term => `
+                <div class="term-card ${selectedTerm && selectedTerm.english === term.english ? 'selected' : ''}" data-term="${term.english}" onclick="selectTerm('${term.english.replace(/'/g, "\\'")}')">
                     <div class="term-title">${term.english}</div>
                     <div class="term-pronunciation">${term.pronunciation}</div>
-                    <div style="margin-bottom: 6px; color: #666;">
-                        <strong>${term.turkish}</strong>
-                    </div>
+                    <div class="term-turkish">${term.turkish}</div>
                     <div class="term-category">${term.category}</div>
                 </div>
             `).join('');
         }
 
-        function selectTerm(termId) {
-            selectedTerm = allTerms.find(t => t.id === termId);
-            if (selectedTerm) {
-                renderTermsList();
-                renderDetailPanel();
-            }
+        function selectTerm(termEnglish) {
+            const term = allTerms.find(t => t.english === termEnglish);
+            if (!term) return;
+            selectedTerm = term;
+            renderTermsList();
+            renderDetailPanel();
+        }
+
+        function renderDetailEmpty() {
+            document.getElementById('detailTitle').textContent = 'Terim Seçin';
+            document.getElementById('detailPronunciation').textContent = '';
+            document.getElementById('detailCategory').textContent = '';
+            document.getElementById('soundBtn').style.display = 'none';
+            document.getElementById('detailContent').innerHTML = `
+                <div class="empty-state">
+                    <div class="icon">📖</div>
+                    <div>Sonuç bulunamadı. Farklı kelime arayabilirsiniz.</div>
+                </div>
+            `;
         }
 
         function renderDetailPanel() {
-            if (!selectedTerm) return;
+            if (!selectedTerm) {
+                renderDetailEmpty();
+                return;
+            }
+            const title = document.getElementById('detailTitle');
+            const pronunciation = document.getElementById('detailPronunciation');
+            const category = document.getElementById('detailCategory');
+            const soundBtn = document.getElementById('soundBtn');
+            const content = document.getElementById('detailContent');
 
-            document.getElementById('detailTitle').textContent = selectedTerm.english;
-            document.getElementById('detailPronunciation').textContent = selectedTerm.pronunciation;
-            document.getElementById('detailCategory').textContent = selectedTerm.category;
-            document.getElementById('speakBtn').style.display = 'flex';
+            title.textContent = selectedTerm.english;
+            pronunciation.textContent = selectedTerm.pronunciation;
+            category.textContent = selectedTerm.category;
+            soundBtn.style.display = 'inline-flex';
+            soundBtn.classList.remove('speaking');
 
-            const detailContent = document.getElementById('detailContent');
-            detailContent.innerHTML = `
+            content.innerHTML = `
                 <div class="detail-section">
-                    <div class="detail-section-title">Türkçe Adı</div>
-                    <div class="detail-section-content">${selectedTerm.turkish}</div>
+                    <div class="detail-section-title">Türkçe karşılığı</div>
+                    <div class="detail-box">${selectedTerm.turkish}</div>
                 </div>
-
                 <div class="detail-section">
-                    <div class="detail-section-title">Okunuşu</div>
-                    <div class="detail-section-content">${selectedTerm.pronunciation}</div>
+                    <div class="detail-section-title">Okunuş</div>
+                    <div class="detail-box">${selectedTerm.pronunciation}</div>
                 </div>
-
                 <div class="detail-section">
                     <div class="detail-section-title">Tanım</div>
-                    <div class="detail-section-content">${selectedTerm.definition}</div>
+                    <div class="detail-box">${selectedTerm.definition}</div>
                 </div>
-
                 <div class="detail-section">
-                    <div class="detail-section-title">Kategori</div>
-                    <div class="detail-section-content">${selectedTerm.category}</div>
+                    <div class="detail-section-title">Modalite / Alan</div>
+                    <div class="detail-box">${selectedTerm.modality}</div>
                 </div>
-
-                <div class="notes-area">
-                    <div class="notes-title">📝 Ders Notları</div>
-                    <textarea class="notes-textarea" id="noteArea-${selectedTerm.id}" placeholder="Bu terim hakkında notlarınızı yazın...">${selectedTerm.notes || ''}</textarea>
+                <div class="detail-section">
+                    <div class="detail-section-title">Ders Notları</div>
+                    <div class="notes-box">
+                        <textarea id="noteArea" placeholder="Bu terim için kısa not yazın...">${selectedTerm.notes || ''}</textarea>
+                    </div>
                 </div>
             `;
 
-            // Not alanı değişikliğini kaydet
-            document.getElementById(`noteArea-${selectedTerm.id}`).addEventListener('change', (e) => {
-                selectedTerm.notes = e.target.value;
+            const noteArea = document.getElementById('noteArea');
+            noteArea.addEventListener('input', (event) => {
+                selectedTerm.notes = event.target.value;
             });
         }
 
-        function speakTerm() {
-            if (!selectedTerm) return;
-            
-            const speakBtn = document.getElementById('speakBtn');
-            speakBtn.classList.add('speaking');
-            
-            // Text-to-Speech API kullanarak okunuşu seslendir
-            const utterance = new SpeechSynthesisUtterance(selectedTerm.english);
-            utterance.lang = 'en-US';
+        function speakText(text, lang) {
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = lang;
             utterance.rate = 0.8;
             utterance.pitch = 1;
             utterance.volume = 1;
-            
-            utterance.onend = () => {
-                speakBtn.classList.remove('speaking');
-            };
-            
-            utterance.onerror = () => {
-                speakBtn.classList.remove('speaking');
-            };
-            
             window.speechSynthesis.cancel();
             window.speechSynthesis.speak(utterance);
         }
 
-        function updateTermCounter() {
-            document.getElementById('termCounter').textContent = 
-                `${filteredTerms.length} / ${allTerms.length} terim`;
-        }
-
-        function clearSearch() {
+        document.getElementById('clearBtn').addEventListener('click', () => {
             document.getElementById('searchInput').value = '';
             applySearch();
-        }
+        });
 
         document.getElementById('searchInput').addEventListener('input', applySearch);
 
-        // İlk yükleme
+        document.getElementById('soundBtn').addEventListener('click', () => {
+            const soundBtn = document.getElementById('soundBtn');
+            soundBtn.classList.add('speaking');
+            if (!selectedTerm) return;
+            speakText(selectedTerm.english, 'en-US');
+            setTimeout(() => soundBtn.classList.remove('speaking'), 1200);
+        });
+
         initializeFilters();
+        selectedTerm = allTerms[0];
         renderTermsList();
-        updateTermCounter();
+        renderDetailPanel();
+        updateCounter();
+
+        function updateCounter() {
+            document.getElementById('termCounter').textContent = `${filteredTerms.length} / ${allTerms.length} terim`;
+        }
     </script>
 </body>
 </html>
